@@ -1,33 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-
-// Image URLs for deployment (use hosted images instead of local file paths)
-const awakeningImg1 = "https://images.pexels.com/photos/1286302/pexels-photo-1286302.jpeg";
-const awakeningImg2 = "https://images.pexels.com/photos/1286302/pexels-photo-1286302.jpeg";
-const awakeningImg3 = "https://images.pexels.com/photos/1286302/pexels-photo-1286302.jpeg";
-const awakeningImg4 = "https://images.pexels.com/photos/1286302/pexels-photo-1286302.jpeg";
-const awakeningImg5 = "https://images.pexels.com/photos/1286302/pexels-photo-1286302.jpeg";
-
-const mannImg1 = "https://images.pexels.com/photos/289736/pexels-photo-289736.jpeg";
-const mannImg2 = "https://images.pexels.com/photos/289736/pexels-photo-289736.jpeg";
-const mannImg3 = "https://images.pexels.com/photos/289736/pexels-photo-289736.jpeg";
-const mannImg4 = "https://images.pexels.com/photos/289736/pexels-photo-289736.jpeg";
-const mannImg5 = "https://images.pexels.com/photos/289736/pexels-photo-289736.jpeg";
-
-const dixImg1 = "https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg";
-const dixImg2 = "https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg";
-const dixImg3 = "https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg";
-const dixImg4 = "https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg";
-const dixImg5 = "https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg";
-
-const temperanceImg1 = "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg";
-const temperanceImg2 = "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg";
-const temperanceImg3 = "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg";
-const temperanceImg4 = "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg";
-const temperanceImg5 = "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg";
-
-const contextImg1 = "https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg";
-const contextImg2 = "https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg";
-const contextImg3 = "https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg";
+import awakeningImg1 from "./assets/teamc/image-699f77e3-0a3a-4bd7-9925-02f0b5041640.png";
+import awakeningImg2 from "./assets/teamc/image-25f457ad-7f57-408f-b374-a565baf43aff.png";
+import awakeningImg3 from "./assets/teamc/image-31be3e7d-83e6-479c-bcfd-be5e987b6ebe.png";
+import awakeningImg4 from "./assets/teamc/image-065af60c-0cdb-4078-b965-be557e4854fc.png";
+import awakeningImg5 from "./assets/teamc/image-2aebc57c-5893-4c20-9cc4-ffb8dd3bb4dc.png";
+import mannImg1 from "./assets/teamc/image-09eec628-190e-43da-975e-882045b3a659.png";
+import mannImg2 from "./assets/teamc/image-4981266e-d3fa-42ae-8d22-f32f85c47f10.png";
+import mannImg3 from "./assets/teamc/image-a5e8028c-3253-45de-b3b7-546f75b28b95.png";
+import mannImg4 from "./assets/teamc/image-0fd2e7b1-3398-4923-b7f5-c0c82dcae9c8.png";
+import mannImg5 from "./assets/teamc/image-74fed96c-47ea-4d8a-aae0-b577dd3d12dc.png";
+import dixImg1 from "./assets/teamc/image-ac92c4ec-ff9a-488f-ae7f-eda3b70c3672.png";
+import dixImg2 from "./assets/teamc/image-4a7891a7-68a6-4a4a-88d9-dd2d8121e9f5.png";
+import dixImg3 from "./assets/teamc/image-4a1402e9-2dba-492a-8c8c-3ab184776f64.png";
+import dixImg4 from "./assets/teamc/image-da84347a-8ef4-46c2-99ad-beffbbe81b0f.png";
+import dixImg5 from "./assets/teamc/image-6003cf93-e555-4a10-8843-aada7fac86b1.png";
+import temperanceImg1 from "./assets/teamc/image-691c492d-890d-4ddb-968d-cba81e6e4bf6.png";
+import temperanceImg2 from "./assets/teamc/image-2c93f168-a275-465a-af8b-ad7e0668e143.png";
+import temperanceImg3 from "./assets/teamc/image-6fbe4033-eba4-4255-adcc-2f54ca27d64d.png";
+import temperanceImg4 from "./assets/teamc/image-a21072ba-b30d-4365-99ba-209798e3a93b.png";
+import temperanceImg5 from "./assets/teamc/image-c760f4f6-42e8-4cf7-8457-b09f51ca6e79.png";
+import contextImg1 from "./assets/teamc/image-ee9937d9-3ad0-472e-a6db-12f11eaa3d5c.png";
+import contextImg2 from "./assets/teamc/image-ae159715-2723-4974-b9a7-e052f5ee5f11.png";
+import contextImg3 from "./assets/teamc/image-c4ced2bb-cc79-4124-8bc1-02f57eafe7d3.png";
 
 /* =========================================================
    TEAM C  --  Social Reform 1815-1860
