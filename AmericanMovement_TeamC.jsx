@@ -1,0 +1,2623 @@
+import React, { useState, useEffect, useRef } from "react";
+import awakeningImg1 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-699f77e3-0a3a-4bd7-9925-02f0b5041640.png";
+import awakeningImg2 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-25f457ad-7f57-408f-b374-a565baf43aff.png";
+import awakeningImg3 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-31be3e7d-83e6-479c-bcfd-be5e987b6ebe.png";
+import awakeningImg4 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-065af60c-0cdb-4078-b965-be557e4854fc.png";
+import awakeningImg5 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-2aebc57c-5893-4c20-9cc4-ffb8dd3bb4dc.png";
+import mannImg1 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-09eec628-190e-43da-975e-882045b3a659.png";
+import mannImg2 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-4981266e-d3fa-42ae-8d22-f32f85c47f10.png";
+import mannImg3 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-a5e8028c-3253-45de-b3b7-546f75b28b95.png";
+import mannImg4 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-0fd2e7b1-3398-4923-b7f5-c0c82dcae9c8.png";
+import mannImg5 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-74fed96c-47ea-4d8a-aae0-b577dd3d12dc.png";
+import dixImg1 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-ac92c4ec-ff9a-488f-ae7f-eda3b70c3672.png";
+import dixImg2 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-4a7891a7-68a6-4a4a-88d9-dd2d8121e9f5.png";
+import dixImg3 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-4a1402e9-2dba-492a-8c8c-3ab184776f64.png";
+import dixImg4 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-da84347a-8ef4-46c2-99ad-beffbbe81b0f.png";
+import dixImg5 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-6003cf93-e555-4a10-8843-aada7fac86b1.png";
+import temperanceImg1 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-691c492d-890d-4ddb-968d-cba81e6e4bf6.png";
+import temperanceImg2 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-2c93f168-a275-465a-af8b-ad7e0668e143.png";
+import temperanceImg3 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-6fbe4033-eba4-4255-adcc-2f54ca27d64d.png";
+import temperanceImg4 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-a21072ba-b30d-4365-99ba-209798e3a93b.png";
+import temperanceImg5 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-c760f4f6-42e8-4cf7-8457-b09f51ca6e79.png";
+import contextImg1 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-ee9937d9-3ad0-472e-a6db-12f11eaa3d5c.png";
+import contextImg2 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-ae159715-2723-4974-b9a7-e052f5ee5f11.png";
+import contextImg3 from "C:\\Users\\Siddharth\\.cursor\\projects\\c-Users-Siddharth-Downloads-Price\\assets\\c__Users_Siddharth_AppData_Roaming_Cursor_User_workspaceStorage_9f0f7f5c16ad7183fbd6a8ee3eced626_images_image-c4ced2bb-cc79-4124-8bc1-02f57eafe7d3.png";
+
+/* =========================================================
+   TEAM C  --  Social Reform 1815-1860
+   Siddharth Mirchandani (C1), Aadit Bhave (C2), Divya Sreekumar (C3)
+   ========================================================= */
+
+const NAV_H = 52;
+
+const C = {
+  bg:        "#10141B",
+  surface:   "#181E29",
+  card:      "#202736",
+  border:    "#313A4D",
+  accent:    "#C8A96A",
+  accentLo:  "#8A6B32",
+  text:      "#F4F1E8",
+  muted:     "#A4AEC2",
+  hi:        "#FFF8E6",
+};
+
+/* ---- fonts loaded via <style> tag ---- */
+
+/* =========================================================  DATA  */
+const TEAM = [
+  "Siddharth Mirchandani (C1)",
+  "Aadit Bhave (C2)",
+  "Divya Sreekumar (C3)",
+];
+
+const TOPICS = [
+  {
+    id: "awakening",
+    num: "01",
+    color: "#C8A96A",
+    era: "1820s to 1840s",
+    title: "The Second Great Awakening",
+    subtitle: "A Revival That Reshaped a Nation",
+    slides: [
+      {
+        label: "Background",
+        imgSrc: awakeningImg1,
+        bullets: [
+          "Early 1800s religious revival movement",
+          "Reaction against Enlightenment rationalism",
+          "Emphasized personal spiritual experience",
+          "Spread widely across frontier regions",
+          "Inspired later reform movements",
+        ],
+        imgAlt: "Cinematic frontier camp revival meeting at sunset with preacher on stage and crowd gathered",
+      },
+      {
+        label: "Key Beliefs",
+        imgSrc: awakeningImg2,
+        bullets: [
+          "Personal relationship with God",
+          "Salvation open to all people",
+          "Emotional preaching and worship",
+          "Individuals responsible for morality",
+          "Faith should improve society",
+        ],
+        imgAlt: "Cartoon-style illustration of diverse people praying and worshipping together",
+      },
+      {
+        label: "Spread of Movement",
+        imgSrc: awakeningImg3,
+        bullets: [
+          "Camp meetings drew massive crowds",
+          "Methodist and Baptist membership surged",
+          "Frontier preachers traveled widely",
+          "Women strongly participated in churches",
+          "Churches expanded across nation",
+        ],
+        imgAlt: "Scene of traveling preacher riding horseback along a frontier road toward a town",
+      },
+      {
+        label: "Impact on Reform",
+        imgSrc: awakeningImg4,
+        bullets: [
+          "Encouraged abolitionist movement growth",
+          "Inspired temperance reform efforts",
+          "Supported expansion of education",
+          "Motivated prison reform campaigns",
+          "Promoted humanitarian social reforms",
+        ],
+        imgAlt: "Simple cartoon timeline with arrows from revival meetings to reform movements",
+      },
+      {
+        label: "Historical Significance",
+        imgSrc: awakeningImg5,
+        bullets: [
+          "Transformed American religious culture",
+          "Empowered ordinary believers spiritually",
+          "Linked religion with reform activism",
+          "Increased national church membership",
+          "Influenced American moral values",
+        ],
+        imgAlt: "Dramatic church congregation scene filled with worshippers",
+      },
+    ],
+    assessment: [
+      {
+        q: "Which statement best describes a key theological shift of the Second Great Awakening?",
+        options: [
+          "Individuals could choose to accept salvation through personal conversion.",
+          "Salvation was predetermined by God before birth.",
+          "Only ordained clergy could interpret the Bible.",
+          "Church attendance was mandatory under federal law.",
+        ],
+        answer: 0, // A
+      },
+      {
+        q: "How did the Second Great Awakening most directly contribute to the abolitionist movement?",
+        options: [
+          "It led Congress to pass the Missouri Compromise.",
+          "It funded the Underground Railroad through church donations.",
+          "It framed slaveholding as a moral sin individuals must reject.",
+          "It established the American Colonization Society.",
+        ],
+        answer: 2, // C
+      },
+    ],
+    sources: [
+      "Howe, Daniel Walker. <em>What Hath God Wrought: The Transformation of America, 1815-1848.</em> Oxford University Press, 2007.",
+      "Finney, Charles G. <em>Lectures on Revivals of Religion.</em> Leavitt, Lord and Company, 1835.",
+    ],
+  },
+  {
+    id: "mann",
+    num: "02",
+    color: "#7DB5A0",
+    era: "1837 to 1848",
+    title: "Horace Mann and Public Education",
+    subtitle: "Building the Common School for a Democratic Republic",
+    slides: [
+      {
+        label: "Background",
+      imgSrc: mannImg1,
+        bullets: [
+          "Early education inconsistent and limited",
+          "Many children lacked schooling access",
+          "Schools often privately funded",
+          "Teachers poorly trained and paid",
+          "Reformers demanded better education",
+        ],
+        imgAlt: "Cartoon comparison of wealthy child studying and poor child working instead of schooling",
+      },
+      {
+        label: "Horace Mann",
+      imgSrc: mannImg2,
+        bullets: [
+          "Massachusetts education reform leader",
+          "Secretary of state education board",
+          "Believed education strengthens democracy",
+          "Promoted universal public schooling",
+          "Called education society's equalizer",
+        ],
+        imgAlt: "Portrait illustration of Horace Mann speaking publicly about education reform",
+      },
+      {
+        label: "Major Reforms",
+      imgSrc: mannImg3,
+        bullets: [
+          "Established teacher training schools",
+          "Standardized school curriculum systems",
+          "Improved school buildings and materials",
+          "Advocated longer school terms",
+          "Promoted professional teacher preparation",
+        ],
+        imgAlt: "Teacher training classroom scene with students learning to teach",
+      },
+      {
+        label: "Impact on Society",
+      imgSrc: mannImg4,
+        bullets: [
+          "More children attended school",
+          "Literacy rates increased nationally",
+          "Education became public responsibility",
+          "Schools promoted civic values",
+          "Model spread across states",
+        ],
+        imgAlt: "One-room schoolhouse classroom with teacher teaching multiple students",
+      },
+      {
+        label: "Historical Significance",
+      imgSrc: mannImg5,
+        bullets: [
+          "Foundation of modern public schools",
+          "Education viewed as democratic necessity",
+          "Equal opportunity emphasized strongly",
+          "Inspired future education reformers",
+          "Lasting influence on schooling",
+        ],
+        imgAlt: "Cartoon showing evolution of schools from small schoolhouse to modern school building",
+      },
+    ],
+    assessment: [
+      {
+        q: "What position did Horace Mann hold that allowed him to transform American education?",
+        options: [
+          "U.S. Secretary of Education",
+          "Secretary of the Massachusetts State Board of Education",
+          "Governor of Massachusetts",
+          "President of Harvard University",
+        ],
+        answer: 1, // B
+      },
+      {
+        q: "What was the primary purpose of the normal schools Mann championed?",
+        options: [
+          "To educate formerly enslaved people in the North",
+          "To provide college education to women",
+          "To teach immigrants English",
+          "To train professional teachers",
+        ],
+        answer: 3, // D
+      },
+    ],
+    sources: [
+      "Cremin, Lawrence A. <em>The Republic and the School: Horace Mann on the Education of Free Men.</em> Teachers College Press, 1957.",
+      "Mann, Horace. <em>Twelfth Annual Report of the Secretary of the Board of Education.</em> Massachusetts Board of Education, 1848.",
+    ],
+  },
+  {
+    id: "dix",
+    num: "03",
+    color: "#9B7EC8",
+    era: "1841 to 1860",
+    title: "Dorothea Dix and Mental Health Reform",
+    subtitle: "A Lone Voice That Changed a Nation's Conscience",
+    slides: [
+      {
+        label: "Background",
+      imgSrc: dixImg1,
+        bullets: [
+          "Mentally ill often imprisoned",
+          "Treated as criminals or outcasts",
+          "Institutions overcrowded and abusive",
+          "Society misunderstood mental illness",
+          "Reformers demanded humane treatment",
+        ],
+        imgAlt: "Dark prison corridor scene with mentally ill prisoners behind bars",
+      },
+      {
+        label: "Dorothea Dix",
+      imgSrc: dixImg3,
+        bullets: [
+          "Teacher turned social reformer",
+          "Investigated prisons and institutions",
+          "Documented mistreatment of mentally ill",
+          "Presented reports to legislatures",
+          "Advocated compassionate treatment",
+        ],
+        imgAlt: "Dorothea Dix holding documents while investigating abusive institutions",
+      },
+      {
+        label: "Reform Campaign",
+      imgSrc: dixImg2,
+        bullets: [
+          "Collected evidence from institutions",
+          "Spoke before state legislatures",
+          "Demanded proper treatment facilities",
+          "Advocated specialized mental hospitals",
+          "Raised national public awareness",
+        ],
+        imgAlt: "Cartoon scene of Dorothea Dix presenting evidence to lawmakers",
+      },
+      {
+        label: "Results of Reform",
+      imgSrc: dixImg4,
+        bullets: [
+          "States built mental hospitals",
+          "Treatment conditions improved significantly",
+          "Mentally ill separated from prisoners",
+          "Mental health gained public attention",
+          "Inspired later healthcare reforms",
+        ],
+        imgAlt: "Early mental hospital building with gardens and patients walking",
+      },
+      {
+        label: "Historical Significance",
+      imgSrc: dixImg5,
+        bullets: [
+          "Major humanitarian reform movement",
+          "Changed views of mental illness",
+          "Expanded government care responsibilities",
+          "Increased compassion for vulnerable people",
+          "Foundation for modern mental healthcare",
+        ],
+        imgAlt: "Cartoon showing transformation from prison confinement to hospital care",
+      },
+    ],
+    assessment: [
+      {
+        q: "What event in 1841 directly inspired Dorothea Dix to begin her reform campaign?",
+        options: [
+          "She read a newspaper account of abuse in a Pennsylvania asylum.",
+          "She attended a lecture by Horace Mann on social reform.",
+          "She discovered mentally ill prisoners in an unheated Cambridge jail cell.",
+          "She was herself hospitalized briefly for illness.",
+        ],
+        answer: 2, // C
+      },
+      {
+        q: "Why was Dix's 1854 federal land grant bill ultimately unsuccessful?",
+        options: [
+          "The Senate voted it down on moral grounds.",
+          "The Supreme Court ruled it unconstitutional.",
+          "Dix withdrew the bill after public opposition.",
+          "President Pierce vetoed it citing states' rights.",
+        ],
+        answer: 3, // D
+      },
+    ],
+    sources: [
+      "Brown, Thomas J. <em>Dorothea Dix: New England Reformer.</em> Harvard University Press, 1998.",
+      "Dix, Dorothea L. <em>Memorial to the Legislature of Massachusetts.</em> Munroe and Francis, 1843.",
+    ],
+  },
+  {
+    id: "temperance",
+    num: "04",
+    color: "#D4706A",
+    era: "1826 to 1860",
+    title: "The American Temperance Union",
+    subtitle: "The War Against Alcohol and the Making of a Reform Tradition",
+    slides: [
+      {
+        label: "Background",
+        imgSrc: temperanceImg1,
+        bullets: [
+          "Reform era encouraged moral improvement",
+          "Religious diversity increased nationwide",
+          "Conflicts between denominations common",
+          "Reformers promoted peaceful coexistence",
+          "Tolerance seen as social necessity",
+        ],
+        imgAlt: "Town scene with multiple churches of different denominations",
+      },
+      {
+        label: "Idea of Religious Tolerance",
+        imgSrc: temperanceImg2,
+        bullets: [
+          "Freedom to practice any religion",
+          "Respect for differing beliefs",
+          "Avoid persecution or discrimination",
+          "Encourage cooperation among faiths",
+          "Promote peaceful religious coexistence",
+        ],
+        imgAlt: "Cartoon showing diverse religions shaking hands peacefully",
+      },
+      {
+        label: "American Tolerance Union",
+        imgSrc: temperanceImg3,
+        bullets: [
+          "Organization promoting religious tolerance",
+          "Encouraged dialogue between denominations",
+          "Advocated respect for religious diversity",
+          "Published materials supporting tolerance",
+          "Worked to reduce religious conflict",
+        ],
+        imgAlt: "Scene of religious leaders meeting in a town hall to promote tolerance",
+      },
+      {
+        label: "Impact on Society",
+        imgSrc: temperanceImg4,
+        bullets: [
+          "Encouraged acceptance of religious diversity",
+          "Reduced tensions between denominations",
+          "Strengthened ideals of religious freedom",
+          "Influenced broader reform movements",
+          "Promoted unity within growing nation",
+        ],
+        imgAlt: "Cartoon town hall debate where religious leaders cooperate respectfully",
+      },
+      {
+        label: "Historical Significance",
+        imgSrc: temperanceImg5,
+        bullets: [
+          "Reinforced American religious freedom ideals",
+          "Encouraged peaceful social coexistence",
+          "Supported democratic liberty principles",
+          "Helped shape pluralistic society",
+          "Contributed to reform era values",
+        ],
+        imgAlt: "Cartoon showing many different faith symbols connected together peacefully",
+      },
+    ],
+    assessment: [
+      {
+        q: "What made the Washingtonian Movement of the 1840s distinctive within the temperance movement?",
+        options: [
+          "It focused exclusively on lobbying state legislatures.",
+          "It advocated for moderate drinking rather than abstinence.",
+          "It featured former drunkards sharing personal testimonials of recovery.",
+          "It was led primarily by Protestant clergy.",
+        ],
+        answer: 2, // C
+      },
+      {
+        q: "The Maine Law of 1851 was significant primarily because it",
+        options: [
+          "established the first federal alcohol tax.",
+          "gave women the right to vote in local elections.",
+          "banned the importation of foreign spirits.",
+          "was the first statewide prohibition of alcohol in U.S. history.",
+        ],
+        answer: 3, // D
+      },
+    ],
+    sources: [
+      "Tyrrell, Ian R. <em>Sobering Up: From Temperance to Prohibition in Antebellum America, 1800-1860.</em> Greenwood Press, 1979.",
+      "Blocker, Jack S. <em>American Temperance Movements: Cycles of Reform.</em> Twayne Publishers, 1989.",
+    ],
+  },
+];
+
+// 3D title slide embeds (Blocks.glass)
+const TOPIC_3D = {
+  awakening: "https://blocks.glass/embed/cc5ffd5a-cc9b-438f-8e3e-f6ac4bdb75ce",
+  mann: "https://blocks.glass/embed/a702dc40-2cd1-4038-8b1e-14a6358790bb",
+  dix: "https://blocks.glass/embed/3ed054bf-ebb3-4825-a895-4ad7ec0f4b39",
+  temperance: "https://blocks.glass/embed/77df546b-8ee9-45f3-ac31-1a8a147ef9a4",
+};
+
+function Preload3DModels() {
+  const urls = Object.values(TOPIC_3D);
+  return (
+    <div style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", pointerEvents: "none" }} aria-hidden="true">
+      {urls.map((src, i) => (
+        <iframe
+          key={i}
+          src={src}
+          title={`preload-3d-${i}`}
+          style={{ width: 0, height: 0, border: "none" }}
+          sandbox="allow-scripts allow-same-origin"
+        />
+      ))}
+    </div>
+  );
+}
+
+const TIMELINE_EVENTS = [
+  { year: "1801", label: "Cane Ridge Revival",          color: "#C8A96A", topic: "awakening" },
+  { year: "1820", label: "2nd Great Awakening peaks",   color: "#C8A96A", topic: "awakening" },
+  { year: "1826", label: "Temperance Society founded",  color: "#D4706A", topic: "temperance" },
+  { year: "1837", label: "Mann: Sec. of Education",     color: "#7DB5A0", topic: "mann" },
+  { year: "1841", label: "Dix at East Cambridge Jail",  color: "#9B7EC8", topic: "dix" },
+  { year: "1843", label: "Dix's Memorial presented",    color: "#9B7EC8", topic: "dix" },
+  { year: "1848", label: "Mann's 12th Annual Report",   color: "#7DB5A0", topic: "mann" },
+  { year: "1851", label: "Maine Law passes",            color: "#D4706A", topic: "temperance" },
+  { year: "1854", label: "Pierce vetoes asylum bill",   color: "#9B7EC8", topic: "dix" },
+];
+
+/* =========================================================  HOOKS  */
+function useWinSize() {
+  const [s, setS] = useState({
+    w: typeof window !== "undefined" ? window.innerWidth : 1200,
+    h: typeof window !== "undefined" ? window.innerHeight : 800,
+  });
+  useEffect(() => {
+    const fn = () => setS({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+  return s;
+}
+
+function useScrollY() {
+  const [y, setY] = useState(0);
+  useEffect(() => {
+    const fn = () => setY(window.scrollY);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  return y;
+}
+
+function useScrollPct() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const fn = () => {
+      const d = document.documentElement;
+      setP(d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight));
+    };
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  return p;
+}
+
+function useActiveSection(ids) {
+  const [active, setActive] = useState(ids[0]);
+  useEffect(() => {
+    const obs = ids.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const o = new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) setActive(id); },
+        { threshold: 0.15 }
+      );
+      o.observe(el);
+      return o;
+    });
+    return () => obs.forEach((o) => o && o.disconnect());
+  }, []);
+  return active;
+}
+
+function useReveal() {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVis(true); },
+      { threshold: 0.08 }
+    );
+    if (ref.current) o.observe(ref.current);
+    return () => o.disconnect();
+  }, []);
+  return [ref, vis];
+}
+
+/* =========================================================  MICRO COMPONENTS  */
+function Reveal({ children, delay = 0 }) {
+  const [ref, vis] = useReveal();
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(22px)",
+        transition: `opacity .7s ease ${delay}s, transform .7s ease ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ProgressBar({ p }) {
+  return (
+    <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 500 }}>
+      <div
+        style={{
+          height: "100%",
+          width: `${p * 100}%`,
+          background: `linear-gradient(90deg, ${C.accentLo}, ${C.accent})`,
+          transition: "width .08s linear",
+        }}
+      />
+    </div>
+  );
+}
+
+/* image placeholder */
+function ImgPlaceholder({ alt, color, aspectRatio = "4/3" }) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        aspectRatio,
+        background: `${color}10`,
+        border: `1px dashed ${color}40`,
+        borderRadius: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        padding: "1rem",
+        boxSizing: "border-box",
+      }}
+    >
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.2" opacity="0.5">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+      </svg>
+      <span style={{ fontFamily: "monospace", fontSize: 10, color: `${color}70`, textAlign: "center", letterSpacing: ".05em", lineHeight: 1.4 }}>
+        {alt}
+      </span>
+    </div>
+  );
+}
+
+/* =========================================================  NAV  */
+function Nav({ active }) {
+  const [open, setOpen] = useState(false);
+  const scrollY = useScrollY();
+  const scrolled = scrollY > 40;
+
+  const go = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    setOpen(false);
+  };
+
+  const navItems = [
+    { id: "hero",    label: "Home" },
+    { id: "context", label: "Context" },
+    ...TOPICS.map((t) => ({ id: t.id, label: t.num, color: t.color })),
+    { id: "eq",      label: "EQ" },
+    { id: "activity", label: "Activity" },
+    { id: "bib",      label: "Bibliography" },
+  ];
+
+  return (
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: scrolled ? 10 : 0,
+          left: scrolled ? "50%" : 0,
+          right: scrolled ? "auto" : 0,
+          transform: scrolled ? "translateX(-50%)" : "none",
+          width: scrolled ? "min(780px, 92vw)" : "100%",
+          zIndex: 400,
+          height: NAV_H,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 1.2rem",
+          background: scrolled ? "rgba(9,9,11,.92)" : "rgba(9,9,11,.0)",
+          backdropFilter: scrolled ? "blur(18px)" : "none",
+          border: scrolled ? `1px solid ${C.border}` : "none",
+          borderRadius: scrolled ? 14 : 0,
+          transition: "all .4s ease",
+          boxSizing: "border-box",
+        }}
+      >
+        {/* logo */}
+        <button
+          onClick={() => go("hero")}
+          style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}
+        >
+          <div style={{ width: 28, height: 28, borderRadius: 7, background: `${C.accent}20`, border: `1px solid ${C.accent}50`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>C</span>
+          </div>
+          <span style={{ fontFamily: "Georgia, serif", color: C.hi, fontSize: 13, fontWeight: 700, letterSpacing: ".06em" }}>
+            Social Reform
+          </span>
+        </button>
+
+        {/* desktop links */}
+        <div className="nav-desktop" style={{ display: "flex", gap: 2, alignItems: "center" }}>
+          {navItems.slice(1, -2).map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              style={{
+                background: active === item.id ? `${item.color || C.accent}18` : "none",
+                border: `1px solid ${active === item.id ? (item.color || C.accent) + "50" : "transparent"}`,
+                borderRadius: 7,
+                cursor: "pointer",
+                fontSize: 11,
+                fontFamily: "monospace",
+                color: active === item.id ? (item.color || C.accent) : C.muted,
+                padding: "4px 9px",
+                whiteSpace: "nowrap",
+                transition: "all .2s",
+                letterSpacing: ".04em",
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+          <div style={{ width: 1, height: 16, background: C.border, margin: "0 4px" }} />
+          <button onClick={() => go("activity")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "activity" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Activity</button>
+          <button onClick={() => go("bib")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "bib" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Bibliography</button>
+        </div>
+
+        {/* hamburger */}
+        <button
+          className="nav-burger"
+          onClick={() => setOpen(!open)}
+          style={{ background: "none", border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer", padding: "6px 8px", display: "none", flexDirection: "column", gap: 4 }}
+          aria-label="menu"
+        >
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              style={{
+                width: 18,
+                height: 1.5,
+                background: C.muted,
+                borderRadius: 1,
+                transition: "all .25s",
+                transform: open && i === 0 ? "rotate(45deg) translateY(5px)" : open && i === 2 ? "rotate(-45deg) translateY(-5px)" : "none",
+                opacity: open && i === 1 ? 0 : 1,
+              }}
+            />
+          ))}
+        </button>
+      </nav>
+
+      {/* mobile dropdown */}
+      {open && (
+        <div
+          style={{
+            position: "fixed",
+            top: NAV_H + (scrollY > 40 ? 18 : 0),
+            left: 0,
+            right: 0,
+            zIndex: 399,
+            background: "rgba(9,9,11,.97)",
+            backdropFilter: "blur(18px)",
+            borderBottom: `1px solid ${C.border}`,
+            padding: "1rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              style={{
+                background: active === item.id ? `${item.color || C.accent}18` : "none",
+                border: `1px solid ${active === item.id ? (item.color || C.accent) + "40" : "transparent"}`,
+                borderRadius: 8,
+                cursor: "pointer",
+                fontSize: 13,
+                fontFamily: "monospace",
+                color: active === item.id ? (item.color || C.accent) : C.text,
+                padding: "10px 14px",
+                textAlign: "left",
+                letterSpacing: ".04em",
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+/* =========================================================  DOTS  */
+function Dots({ active }) {
+  const ids = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "bib"];
+  return (
+    <div style={{ position: "fixed", right: 14, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 300 }}>
+      {ids.map((id) => {
+        const topic = TOPICS.find((t) => t.id === id);
+        const col = topic ? topic.color : C.accent;
+        return (
+          <button
+            key={id}
+            title={id}
+            onClick={() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+            style={{
+              width: active === id ? 8 : 4,
+              height: active === id ? 8 : 4,
+              borderRadius: "50%",
+              background: active === id ? col : C.border,
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              transition: "all .3s",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+/* =========================================================  HERO  */
+function Hero({ scrollY }) {
+  const parallax = scrollY * 0.38;
+
+  return (
+    <section
+      id="hero"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        background: C.bg,
+        padding: `${NAV_H + 40}px 1.5rem 5rem`,
+        boxSizing: "border-box",
+      }}
+    >
+      {/* noise grain overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
+          backgroundSize: "200px 200px",
+          pointerEvents: "none",
+          opacity: 0.6,
+        }}
+      />
+
+      {/* animated grid */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `linear-gradient(${C.accent}09 1px, transparent 1px), linear-gradient(90deg, ${C.accent}09 1px, transparent 1px)`,
+          backgroundSize: "64px 64px",
+          transform: `translateY(${parallax * 0.2}px)`,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* radial glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "38%",
+          left: "50%",
+          transform: `translate(-50%, -50%) translateY(${parallax * 0.35}px)`,
+          width: "min(900px, 120vw)",
+          height: "min(900px, 120vw)",
+          background: `radial-gradient(ellipse, ${C.accentLo}22 0%, transparent 65%)`,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* year stamp */}
+      <div
+        style={{
+          position: "absolute",
+          right: "5vw",
+          bottom: "8vh",
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(5rem, 14vw, 12rem)",
+          color: `${C.accent}07`,
+          fontWeight: 900,
+          lineHeight: 1,
+          userSelect: "none",
+          transform: `translateY(${-parallax * 0.12}px)`,
+          pointerEvents: "none",
+        }}
+      >
+        1815
+      </div>
+
+      <div style={{ position: "relative", textAlign: "center", maxWidth: 760, width: "100%", transform: `translateY(${-parallax * 0.1}px)` }}>
+
+        <Reveal>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: `${C.accent}12`,
+              border: `1px solid ${C.accent}35`,
+              borderRadius: 100,
+              padding: "6px 16px",
+              marginBottom: "1.8rem",
+            }}
+          >
+            <div style={{ width: 5, height: 5, borderRadius: "50%", background: C.accent, animation: "pulse 2s infinite" }} />
+            <span style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: ".2em", color: C.accent, textTransform: "uppercase" }}>
+              The American Movement 1815 to 1860
+            </span>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <h1
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: "clamp(2.8rem, 7vw, 6rem)",
+              color: C.hi,
+              fontWeight: 900,
+              lineHeight: 1.0,
+              marginBottom: ".6rem",
+              letterSpacing: "-.01em",
+            }}
+          >
+            Social Reform
+          </h1>
+        </Reveal>
+        <Reveal delay={0.14}>
+          <h1
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: "clamp(2.8rem, 7vw, 6rem)",
+              color: C.accent,
+              fontWeight: 900,
+              lineHeight: 1.0,
+              marginBottom: "1.8rem",
+              letterSpacing: "-.01em",
+            }}
+          >
+            in Antebellum America
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: "clamp(.95rem, 1.8vw, 1.2rem)",
+              color: C.muted,
+              maxWidth: 520,
+              margin: "0 auto 1.6rem",
+              lineHeight: 1.8,
+              fontStyle: "italic",
+            }}
+          >
+            Four movements. Four reformers. One generation's conviction that America
+            and every American could be made better.
+          </p>
+        </Reveal>
+
+        {/* team names */}
+        <Reveal delay={0.26}>
+          <div
+            style={{
+              display: "flex",
+              gap: ".6rem",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              marginBottom: "2rem",
+            }}
+          >
+            {TEAM.map((name) => (
+              <span
+                key={name}
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 11,
+                  color: C.muted,
+                  background: `${C.accent}0A`,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 6,
+                  padding: "4px 10px",
+                  letterSpacing: ".04em",
+                }}
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* topic pills */}
+        <Reveal delay={0.32}>
+          <div style={{ display: "flex", gap: ".5rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+            {TOPICS.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => { const el = document.getElementById(t.id); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+                style={{
+                  background: `${t.color}12`,
+                  border: `1px solid ${t.color}40`,
+                  borderRadius: 8,
+                  padding: "7px 16px",
+                  color: t.color,
+                  fontSize: 11,
+                  fontFamily: "monospace",
+                  letterSpacing: ".05em",
+                  cursor: "pointer",
+                  transition: "all .2s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = `${t.color}22`; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = `${t.color}12`; e.currentTarget.style.transform = "translateY(0)"; }}
+              >
+                {t.num} {t.title.split(" ").slice(0, 3).join(" ")}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.44}>
+          <div style={{ color: C.muted, fontSize: 11, fontFamily: "monospace", letterSpacing: ".12em", animation: "bounce 2.2s infinite" }}>
+            scroll to explore
+          </div>
+        </Reveal>
+      </div>
+
+      {/* bottom gradient fade */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, background: `linear-gradient(to bottom, transparent, ${C.bg})`, pointerEvents: "none" }} />
+    </section>
+  );
+}
+
+
+/* =========================================================  CONTEXT SECTION  */
+function ContextSection() {
+  const cards = [
+    {
+      id: "awakening",
+      title: "Second Great Awakening",
+      subtitle: "Religious revival movement",
+      color: TOPICS.find((t) => t.id === "awakening")?.color || C.accent,
+    },
+    {
+      id: "mann",
+      title: "Horace Mann",
+      subtitle: "Public education reform",
+      color: TOPICS.find((t) => t.id === "mann")?.color || C.accent,
+    },
+    {
+      id: "dix",
+      title: "Dorothea Dix",
+      subtitle: "Mental health reform",
+      color: TOPICS.find((t) => t.id === "dix")?.color || C.accent,
+    },
+    {
+      id: "temperance",
+      title: "American Tolerance Union",
+      subtitle: "Religious tolerance movement",
+      color: TOPICS.find((t) => t.id === "temperance")?.color || C.accent,
+    },
+  ];
+
+  const go = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <section
+      id="context"
+      style={{
+        background: C.surface,
+        padding: "4.5rem 1.5rem 4.8rem",
+        borderTop: `1px solid ${C.border}`,
+      }}
+    >
+      <div style={{ maxWidth: 980, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ marginBottom: "2.5rem" }}>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                letterSpacing: ".22em",
+                color: C.accentLo,
+                textTransform: "uppercase",
+                marginBottom: 8,
+              }}
+            >
+              Context
+            </div>
+            <h2
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                color: C.hi,
+                fontWeight: 900,
+                marginBottom: 4,
+              }}
+            >
+              The Reform Era (1815–1860)
+            </h2>
+            <p
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: ".98rem",
+                color: C.muted,
+                maxWidth: 640,
+                lineHeight: 1.7,
+              }}
+            >
+              Before diving into individual reformers, it helps to see the bigger
+              picture of what was happening across the United States in the early
+              1800s.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Blocks 1–3: narrative context */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1.1fr)",
+            gap: "1.8rem",
+            alignItems: "stretch",
+            marginBottom: "2.3rem",
+          }}
+        >
+          {/* Block 1 */}
+          <Reveal>
+            <div
+              style={{
+                borderRadius: 14,
+                border: `1px solid ${C.border}`,
+                background: C.card,
+                padding: "1.5rem 1.6rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    letterSpacing: ".2em",
+                    textTransform: "uppercase",
+                    color: C.accent,
+                    marginBottom: 4,
+                  }}
+                >
+                  Block 1
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: "1.1rem",
+                    color: C.hi,
+                    fontWeight: 700,
+                  }}
+                >
+                  What Was Happening in America
+                </h3>
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".55rem",
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".96rem",
+                  color: C.text,
+                  lineHeight: 1.6,
+                }}
+              >
+                <li>Rapid population growth</li>
+                <li>Expanding frontier communities</li>
+                <li>New religious movements spreading</li>
+                <li>Social problems becoming visible</li>
+                <li>Citizens demanding social improvement</li>
+              </ul>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accent}40` }}>
+              <img src={contextImg1} alt="1800s American town scene with busy streets and growing communities" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Block 2 */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1.2fr)",
+            gap: "1.8rem",
+            alignItems: "stretch",
+            marginBottom: "2.3rem",
+          }}
+        >
+          <Reveal>
+            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accentLo}40` }}>
+              <img src={contextImg2} alt="Religious revival meeting or church gathering in the 1800s" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div
+              style={{
+                borderRadius: 14,
+                border: `1px solid ${C.border}`,
+                background: C.card,
+                padding: "1.5rem 1.6rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    letterSpacing: ".2em",
+                    textTransform: "uppercase",
+                    color: C.accentLo,
+                    marginBottom: 4,
+                  }}
+                >
+                  Block 2
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: "1.1rem",
+                    color: C.hi,
+                    fontWeight: 700,
+                  }}
+                >
+                  Why Reform Movements Started
+                </h3>
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".55rem",
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".96rem",
+                  color: C.text,
+                  lineHeight: 1.6,
+                }}
+              >
+                <li>Second Great Awakening spreads morality</li>
+                <li>People believe society can improve</li>
+                <li>Democracy encourages citizen action</li>
+                <li>Reformers challenge injustice</li>
+                <li>Moral duty to help others</li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Block 3 */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1.1fr)",
+            gap: "1.8rem",
+            alignItems: "stretch",
+            marginBottom: "2.3rem",
+          }}
+        >
+          <Reveal>
+            <div
+              style={{
+                borderRadius: 14,
+                border: `1px solid ${C.border}`,
+                background: C.card,
+                padding: "1.5rem 1.6rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    letterSpacing: ".2em",
+                    textTransform: "uppercase",
+                    color: C.accent,
+                    marginBottom: 4,
+                  }}
+                >
+                  Block 3
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: "1.1rem",
+                    color: C.hi,
+                    fontWeight: 700,
+                  }}
+                >
+                  Types of Reform
+                </h3>
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".55rem",
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".96rem",
+                  color: C.text,
+                  lineHeight: 1.6,
+                }}
+              >
+                <li>Religious revival movements</li>
+                <li>Public education reform</li>
+                <li>Mental health reform</li>
+                <li>Social morality movements</li>
+                <li>Religious tolerance discussions</li>
+              </ul>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accent}40` }}>
+              <img src={contextImg3} alt="Split collage showing education, religion, and healthcare reform" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Block 4: cards leading into slide decks */}
+        <Reveal>
+          <div
+            style={{
+              borderRadius: 16,
+              border: `1px solid ${C.border}`,
+              background: `radial-gradient(circle at top left, ${C.accent}10 0, transparent 60%), ${C.card}`,
+              padding: "1.6rem 1.7rem 2rem",
+            }}
+          >
+            <div style={{ marginBottom: "1.1rem" }}>
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 9,
+                  letterSpacing: ".2em",
+                  textTransform: "uppercase",
+                  color: C.accentLo,
+                  marginBottom: 4,
+                }}
+              >
+                Block 4
+              </div>
+              <h3
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: "1.1rem",
+                  color: C.hi,
+                  fontWeight: 700,
+                  marginBottom: 4,
+                }}
+              >
+                The Four Movements You’ll Explore
+              </h3>
+              <p
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".92rem",
+                  color: C.muted,
+                  maxWidth: 560,
+                  lineHeight: 1.6,
+                }}
+              >
+                Each card below will expand into its own interactive slide deck
+                as you scroll further down the page.
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "0.9rem",
+              }}
+            >
+              {cards.map((card, i) => (
+                <button
+                  key={card.id}
+                  onClick={() => go(card.id)}
+                  style={{
+                    borderRadius: 14,
+                    padding: "1.1rem 1.1rem",
+                    border: `1px solid ${card.color}55`,
+                    background: `${card.color}10`,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: 6,
+                    cursor: "pointer",
+                    textAlign: "left",
+                    transition: "transform .18s, box-shadow .18s, background .18s",
+                    boxShadow:
+                      "0 12px 26px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.02)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 18px 38px rgba(0,0,0,0.55)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 12px 26px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.02)";
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: 9,
+                      letterSpacing: ".22em",
+                      textTransform: "uppercase",
+                      color: card.color,
+                      opacity: 0.85,
+                    }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      fontSize: ".98rem",
+                      color: C.hi,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {card.title}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      fontSize: ".88rem",
+                      color: C.muted,
+                    }}
+                  >
+                    {card.subtitle}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+
+/* =========================================================  SLIDE (single) -- bullet + image layout  */
+function ContentSlide({ slide, color, topicTitle, slideNum, totalSlides }) {
+  const isImageLeft = slideNum % 2 === 0;
+  const variant = slideNum % 3;
+
+  const baseBg = C.bg;
+  const bg =
+    variant === 1
+      ? `radial-gradient(circle at top left, ${color}16 0, transparent 55%), ${baseBg}`
+      : variant === 2
+      ? `linear-gradient(135deg, ${baseBg} 0%, ${color}10 45%, ${baseBg} 100%)`
+      : baseBg;
+
+  const borderTop =
+    variant === 0 ? `1px solid ${color}30` : `1px solid ${color}40`;
+
+  const textBlock = (
+    <div>
+      <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".22em", color, textTransform: "uppercase", marginBottom: ".8rem" }}>
+        {slide.label}
+      </div>
+      <h2
+        style={{
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(1.4rem, 3vw, 2.4rem)",
+          color: C.hi,
+          fontWeight: 900,
+          lineHeight: 1.1,
+          marginBottom: "1.4rem",
+        }}
+      >
+        {slide.label}
+      </h2>
+
+      {/* bullets */}
+      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: ".65rem" }}>
+        {slide.bullets.map((b, i) => (
+          <li
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "0.75rem",
+              fontFamily: "Georgia, serif",
+              fontSize: "clamp(.9rem, 1.3vw, 1.05rem)",
+              color: C.text,
+              lineHeight: 1.55,
+            }}
+          >
+            <div
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: color,
+                flexShrink: 0,
+                marginTop: ".45rem",
+              }}
+            />
+            {b}
+          </li>
+        ))}
+      </ul>
+
+      {/* slide counter */}
+      <div style={{ marginTop: "1.5rem", fontFamily: "monospace", fontSize: 10, color: C.muted, letterSpacing: ".1em" }}>
+        {String(slideNum).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}
+      </div>
+    </div>
+  );
+
+  const imageBlock = (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {slide.imgSrc ? (
+        <div
+          style={{
+            width: "88%",
+            maxWidth: 520,
+            aspectRatio: "4/3",
+            overflow: "hidden",
+            borderRadius: 10,
+            border: `1px solid ${color}40`,
+            boxShadow: "0 18px 40px rgba(0,0,0,0.55)",
+          }}
+        >
+          <img
+            src={slide.imgSrc}
+            alt={slide.imgAlt}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </div>
+      ) : (
+        <ImgPlaceholder alt={slide.imgAlt} color={color} aspectRatio="4/3" />
+      )}
+    </div>
+  );
+
+  return (
+    <div
+      style={{
+        width: "100vw",
+        height: "100%",
+        flexShrink: 0,
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "3vw",
+        alignItems: "center",
+        padding: "3rem clamp(1.5rem, 6vw, 6rem)",
+        boxSizing: "border-box",
+        position: "relative",
+        overflow: "hidden",
+        background: bg,
+        borderTop,
+      }}
+    >
+      {isImageLeft ? (
+        <>
+          {imageBlock}
+          {textBlock}
+        </>
+      ) : (
+        <>
+          {textBlock}
+          {imageBlock}
+        </>
+      )}
+    </div>
+  );
+}
+
+/* =========================================================  ASSESSMENT SLIDE  */
+function AssessmentSlide({ topic, slideNum, totalSlides, tx, vw }) {
+  const [answers, setAnswers] = useState([null, null]);
+  const [show, setShow] = useState(false);
+  const si = slideNum - 1;
+  const parallaxX = (tx - si * vw) * 0.05;
+
+  return (
+    <div
+      style={{
+        width: "100vw",
+        height: "100%",
+        flexShrink: 0,
+        display: "flex",
+        alignItems: "center",
+        padding: "3rem clamp(1.5rem, 5vw, 6rem)",
+        boxSizing: "border-box",
+        position: "relative",
+        overflow: "hidden",
+        background: `${topic.color}06`,
+      }}
+    >
+      {/* ghost ? */}
+      <div
+        style={{
+          position: "absolute",
+          right: "3vw",
+          top: "50%",
+          transform: `translateY(-52%) translateX(${parallaxX}px)`,
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(8rem, 20vw, 18rem)",
+          color: `${topic.color}08`,
+          fontWeight: 900,
+          lineHeight: 1,
+          userSelect: "none",
+          pointerEvents: "none",
+          transition: "transform .07s linear",
+        }}
+      >
+        ?
+      </div>
+
+      <div style={{ maxWidth: "min(820px, 100%)", width: "100%", position: "relative" }}>
+        <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".22em", color: topic.color, textTransform: "uppercase", marginBottom: ".8rem" }}>
+          Assessment
+        </div>
+        <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem, 2.8vw, 2.2rem)", color: C.hi, fontWeight: 900, marginBottom: "0.8rem" }}>
+          Test Your Knowledge
+        </h2>
+        <p
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: ".92rem",
+            color: C.muted,
+            marginBottom: "1.4rem",
+            lineHeight: 1.6,
+          }}
+        >
+          Tap the best answer for each question, then reveal the correct responses.
+        </p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.4rem", marginBottom: "1.4rem" }}>
+          {topic.assessment.map((q, qi) => (
+            <div key={qi}>
+              <p
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".9rem",
+                  color: C.text,
+                  fontWeight: 600,
+                  lineHeight: 1.5,
+                  marginBottom: ".45rem",
+                }}
+              >
+                {qi + 1}. {q.q}
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".35rem",
+                  paddingLeft: "0.25rem",
+                  borderLeft: `2px solid ${topic.color}40`,
+                }}
+              >
+                {q.options.map((opt, oi) => {
+                  const sel = answers[qi] === oi;
+                  const correct = show && oi === q.answer;
+                  const wrong = show && sel && oi !== q.answer;
+                  const letter = String.fromCharCode(65 + oi); // A, B, C, D
+                  return (
+                    <button
+                      key={oi}
+                      onClick={() => { const n = [...answers]; n[qi] = oi; setAnswers(n); }}
+                      style={{
+                        textAlign: "left",
+                        padding: "7px 10px",
+                        borderRadius: 0,
+                        border: "none",
+                        background: correct
+                          ? "#4CAF5020"
+                          : wrong
+                          ? "#E5393520"
+                          : sel
+                          ? `${topic.color}20`
+                          : "transparent",
+                        color: correct ? "#81C784" : wrong ? "#EF9A9A" : C.text,
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".84rem",
+                        cursor: "pointer",
+                        transition: "all .18s",
+                        lineHeight: 1.4,
+                        boxSizing: "border-box",
+                        position: "relative",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <span style={{ fontFamily: "monospace", fontSize: 10, opacity: 0.75, marginRight: 6 }}>
+                        {letter}.
+                      </span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", flexWrap: "wrap" }}>
+          <button
+            onClick={() => setShow(!show)}
+            style={{
+              padding: "8px 20px",
+              borderRadius: 8,
+              border: `1px solid ${topic.color}`,
+              background: "transparent",
+              color: topic.color,
+              fontFamily: "monospace",
+              fontSize: 11,
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+          >
+            {show ? "Hide Answers" : "Check Answers"}
+          </button>
+        </div>
+
+        <div style={{ marginTop: "1rem", fontFamily: "monospace", fontSize: 10, color: C.muted, letterSpacing: ".1em" }}>
+          {String(slideNum).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================  TOPIC TITLE SLIDE  */
+function TopicTitleSlide({ topic, totalSlides }) {
+  const embedSrc = TOPIC_3D[topic.id];
+
+  return (
+    <div
+      style={{
+        width: "100vw",
+        height: "100%",
+        flexShrink: 0,
+        display: "grid",
+        gridTemplateColumns: "minmax(0,1.6fr) minmax(0,1fr)",
+        gap: "4vw",
+        alignItems: "center",
+        padding: "3.5rem clamp(1.8rem, 6vw, 6rem)",
+        boxSizing: "border-box",
+        position: "relative",
+        overflow: "hidden",
+        background: `radial-gradient(circle at top left, ${topic.color}18 0, transparent 55%), ${C.bg}`,
+      }}
+    >
+      {/* subtle frame */}
+      <div
+        style={{
+          position: "absolute",
+          inset: "10% 6%",
+          borderRadius: 24,
+          border: `1px solid ${topic.color}26`,
+          opacity: 0.7,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* ghost number */}
+      <div
+        style={{
+          position: "absolute",
+          right: "4vw",
+          top: "8vh",
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(5rem, 16vw, 9rem)",
+          color: `${topic.color}06`,
+          fontWeight: 900,
+          letterSpacing: "-.06em",
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      >
+        {topic.num}
+      </div>
+
+      {/* left column: primary title */}
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "6px 14px",
+            borderRadius: 999,
+            border: `1px solid ${topic.color}55`,
+            background: `${topic.color}10`,
+            marginBottom: "1.4rem",
+          }}
+        >
+          <div
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: topic.color,
+              boxShadow: `0 0 0 4px ${topic.color}33`,
+            }}
+          />
+          <span
+            style={{
+              fontFamily: "monospace",
+              fontSize: 9,
+              letterSpacing: ".22em",
+              textTransform: "uppercase",
+              color: topic.color,
+            }}
+          >
+            Slide Deck {topic.num}
+          </span>
+        </div>
+
+        <h2
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: "clamp(2rem, 3.6vw, 3rem)",
+            color: C.hi,
+            fontWeight: 900,
+            lineHeight: 1.05,
+            marginBottom: ".5rem",
+            letterSpacing: "-.03em",
+          }}
+        >
+          {topic.title}
+        </h2>
+
+        <p
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: "clamp(1rem, 1.7vw, 1.2rem)",
+            color: topic.color,
+            fontWeight: 500,
+            marginBottom: "1.6rem",
+          }}
+        >
+          {topic.subtitle}
+        </p>
+
+        <p
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: ".98rem",
+            color: C.muted,
+            maxWidth: 520,
+            lineHeight: 1.75,
+          }}
+        >
+          Explore how{" "}
+          <span style={{ color: C.hi, fontStyle: "italic" }}>{topic.title}</span>{" "}
+          reflects the wider wave of reform in antebellum America and connects
+          religious conviction to political change.
+        </p>
+
+        <div
+          style={{
+            marginTop: "1.8rem",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 10,
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: 10,
+              letterSpacing: ".16em",
+              textTransform: "uppercase",
+              color: C.muted,
+            }}
+          >
+            Era:{" "}
+            <span style={{ color: C.hi, fontWeight: 600 }}>{topic.era}</span>
+          </div>
+          <div
+            style={{
+              width: 1,
+              height: 16,
+              background: C.border,
+              opacity: 0.6,
+            }}
+          />
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: 10,
+              color: C.muted,
+              letterSpacing: ".14em",
+              textTransform: "uppercase",
+            }}
+          >
+            Slide 01 / {String(totalSlides).padStart(2, "0")}
+          </div>
+        </div>
+      </div>
+
+      {/* right column: 3D cover + compact overview */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          justifySelf: "flex-end",
+          width: "100%",
+          maxWidth: 360,
+        }}
+      >
+        {embedSrc && (
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "4 / 3",
+              borderRadius: 18,
+              overflow: "hidden",
+              border: `1px solid ${topic.color}55`,
+              marginBottom: "1rem",
+              boxShadow: "0 20px 45px rgba(0,0,0,0.55)",
+              background: "#000",
+            }}
+          >
+            <iframe
+              src={embedSrc}
+              title={`${topic.title} 3D cover`}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+              sandbox="allow-scripts allow-same-origin"
+              allow="autoplay; encrypted-media; xr-spatial-tracking; accelerometer; gyroscope; magnetometer"
+              allowFullScreen
+            />
+          </div>
+        )}
+
+        <div
+          style={{
+            borderRadius: 18,
+            padding: "1.4rem 1.5rem",
+            border: `1px solid ${C.border}`,
+            background:
+              "linear-gradient(145deg, rgba(24,24,31,0.96), rgba(9,9,11,0.96))",
+            boxShadow: `0 22px 40px rgba(0,0,0,0.45)`,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: 9,
+              letterSpacing: ".22em",
+              textTransform: "uppercase",
+              color: C.muted,
+              marginBottom: ".7rem",
+            }}
+          >
+            3D Model: What It Shows
+          </div>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              fontFamily: "Georgia, serif",
+              fontSize: ".9rem",
+              color: C.text,
+              lineHeight: 1.7,
+            }}
+          >
+            {topic.id === "awakening" && (
+              <>
+                <li>• Shows how religious revivals happened outdoors.</li>
+                <li>• Camp meetings attracted very large crowds.</li>
+                <li>• Preachers spoke passionately to inspire faith.</li>
+                <li>• People prayed and showed strong emotions.</li>
+                <li>• Represents how religion spread across frontier America.</li>
+              </>
+            )}
+            {topic.id === "mann" && (
+              <>
+                <li>• Shows what early American classrooms looked like.</li>
+                <li>• Many children learned in small one-room schools.</li>
+                <li>• Teachers taught multiple ages together.</li>
+                <li>• Represents Mann’s goal of improving education.</li>
+                <li>• Symbolizes the beginning of public schooling.</li>
+              </>
+            )}
+            {topic.id === "dix" && (
+              <>
+                <li>• Shows poor conditions mentally ill people faced.</li>
+                <li>• Many were kept in prisons instead.</li>
+                <li>• Dix investigated these conditions personally.</li>
+                <li>• Her reports convinced lawmakers to act.</li>
+                <li>• Led to building proper mental hospitals.</li>
+              </>
+            )}
+            {topic.id === "temperance" && (
+              <>
+                <li>• Shows people discussing religious differences peacefully.</li>
+                <li>• Represents cooperation between denominations.</li>
+                <li>• Promotes the idea of respecting different beliefs.</li>
+                <li>• Reflects growing religious diversity in America.</li>
+                <li>• Connects to the reform era’s push for tolerance.</li>
+              </>
+            )}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================  TOPIC SECTION (horizontal scroll on vertical)  */
+function TopicSection({ topic }) {
+  const containerRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const { w, h } = useWinSize();
+  const SLIDE_H = h - NAV_H;
+  const TOTAL = topic.slides.length + 2; // 1 title + content + 1 assessment
+
+  useEffect(() => {
+    const update = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const scrollable = el.offsetHeight - (h - NAV_H);
+      if (scrollable <= 0) return;
+      const p = Math.min(1, Math.max(0, -(rect.top - NAV_H) / scrollable));
+      setProgress(p);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    return () => { window.removeEventListener("scroll", update); window.removeEventListener("resize", update); };
+  }, [h]);
+
+  // map scroll progress into stepped slides with a small "safe zone"
+  const raw = progress * (TOTAL - 1); // 0 .. TOTAL-1
+  const currentIndex = Math.floor(raw);
+  const within = raw - currentIndex;
+  const DEAD_ZONE = 0.35; // portion of each slide where the content stays fixed
+
+  let slideOffset = currentIndex;
+  if (within > DEAD_ZONE && currentIndex < TOTAL - 1) {
+    const t = (within - DEAD_ZONE) / (1 - DEAD_ZONE);
+    slideOffset = currentIndex + t;
+  }
+
+  const clampedOffset = Math.min(TOTAL - 1, Math.max(0, slideOffset));
+  const tx = clampedOffset * w;
+  const activeSlide = Math.min(TOTAL - 1, Math.round(clampedOffset));
+
+  return (
+    <section
+      id={topic.id}
+      ref={containerRef}
+      style={{ height: `calc(${TOTAL} * (100vh - ${NAV_H}px) + ${NAV_H}px)`, position: "relative" }}
+    >
+      <div
+        style={{
+          position: "sticky",
+          top: NAV_H,
+          height: `calc(100vh - ${NAV_H}px)`,
+          overflow: "hidden",
+          background: C.bg,
+          borderTop: `2px solid ${topic.color}35`,
+        }}
+      >
+        {/* pip indicators */}
+        <div
+          style={{
+            position: "absolute",
+            top: 16,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 10,
+            display: "flex",
+            gap: 6,
+            alignItems: "center",
+          }}
+        >
+          {Array.from({ length: TOTAL }).map((_, i) => (
+            <div
+              key={i}
+              style={{
+                height: 3,
+                width: i === activeSlide ? 28 : 7,
+                borderRadius: 2,
+                background: i === activeSlide ? topic.color : C.border,
+                transition: "all .4s ease",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* topic label top-left */}
+        <div style={{ position: "absolute", top: 12, left: "1.5rem", zIndex: 10 }}>
+          <span
+            style={{
+              fontFamily: "monospace",
+              fontSize: 9,
+              letterSpacing: ".18em",
+              color: topic.color,
+              textTransform: "uppercase",
+            }}
+          >
+            {topic.num} / {topic.title}
+          </span>
+        </div>
+
+        {/* horizontal track */}
+        <div
+          style={{
+            display: "flex",
+            width: `${TOTAL * 100}vw`,
+            height: "100%",
+            transform: `translateX(-${tx}px)`,
+            transition: "transform .07s linear",
+            willChange: "transform",
+          }}
+        >
+          <TopicTitleSlide topic={topic} totalSlides={TOTAL} />
+          {topic.slides.map((slide, si) => {
+            const slideNum = si + 2; // after title slide
+            return (
+              <ContentSlide
+                key={si}
+                slide={slide}
+                color={topic.color}
+                topicTitle={topic.title}
+                slideNum={slideNum}
+                totalSlides={TOTAL}
+              />
+            );
+          })}
+          <AssessmentSlide
+            topic={topic}
+            slideNum={TOTAL}
+            totalSlides={TOTAL}
+            tx={tx}
+            vw={w}
+          />
+        </div>
+
+        {/* scroll hint */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 16,
+            right: "1.5rem",
+            fontFamily: "monospace",
+            fontSize: 10,
+            color: C.muted,
+            letterSpacing: ".08em",
+          }}
+        >
+          {activeSlide < TOTAL - 1 ? "scroll to advance" : "scroll for next section"}
+        </div>
+
+        {/* bottom gradient */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 40,
+            background: `linear-gradient(to bottom, transparent, ${C.bg})`,
+            pointerEvents: "none",
+          }}
+        />
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================  ESSENTIAL QUESTION (EQ)  */
+function EQSection() {
+  const answerParagraphs = [
+    "In the early 1800s many Americans believed society could become better. Religious revivals encouraged people to live moral lives and help others. This belief led to reform movements that tried to improve schools prisons and treatment of the mentally ill. Leaders like Horace Mann and Dorothea Dix worked to change laws and institutions so people could have more opportunity and dignity.",
+    "Political decisions also helped expand freedom and responsibility. State governments supported public education which allowed more children to learn and prepare for citizenship. Reformers spoke to lawmakers and pushed for new policies that treated people more fairly. These actions showed how government and citizens could work together to improve society.",
+    "However some decisions also slowed progress. Many Americans disagreed about reform movements and some resisted change. Economic interests and traditional beliefs often protected the old systems. Even with these challenges the reform era showed that cultural ideas political action and economic choices could shape the growth of freedom equality and respect for human dignity.",
+  ];
+  const skeleton = [
+    {
+      num: "1",
+      title: "Reform ideas begin",
+      bullets: [
+        "Early 1800s Americans wanted social improvement",
+        "Religious revivals encouraged moral responsibility",
+        "Reform movements tried to fix social problems",
+        "Horace Mann improved public education",
+        "Dorothea Dix reformed mental health treatment",
+      ],
+    },
+    {
+      num: "2",
+      title: "Role of government",
+      bullets: [
+        "Political decisions expanded opportunities",
+        "States supported public education systems",
+        "Education prepared citizens for democracy",
+        "Reformers persuaded lawmakers to change policies",
+        "Government and citizens worked together",
+      ],
+    },
+    {
+      num: "3",
+      title: "Limits and challenges",
+      bullets: [
+        "Many Americans resisted social reforms",
+        "Economic interests protected old systems",
+        "Cultural traditions slowed change",
+        "Reform movements still pushed progress",
+        "Freedom and dignity slowly expanded",
+      ],
+    },
+  ];
+
+  return (
+    <section
+      id="eq"
+      style={{
+        background: C.surface,
+        padding: "4.5rem 1.5rem 4.8rem",
+        borderTop: `1px solid ${C.border}`,
+      }}
+    >
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ marginBottom: "2rem" }}>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                letterSpacing: ".22em",
+                color: C.accentLo,
+                textTransform: "uppercase",
+                marginBottom: 8,
+              }}
+            >
+              Essential Question
+            </div>
+            <h2
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: "clamp(1.35rem, 2.8vw, 1.9rem)",
+                color: C.hi,
+                fontWeight: 700,
+                lineHeight: 1.4,
+                marginBottom: "1.8rem",
+              }}
+            >
+              EQ A2: How have economic political and cultural decisions promoted or prevented the growth of personal freedom individual responsibility equality and respect for human dignity?
+            </h2>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "2rem",
+              alignItems: "start",
+            }}
+            className="eq-two-col"
+          >
+            <div>
+              <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".75rem" }}>
+                Answer
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {answerParagraphs.map((p, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      fontSize: ".95rem",
+                      color: C.text,
+                      lineHeight: 1.65,
+                      margin: 0,
+                    }}
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".75rem" }}>
+                Bullet skeleton
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                {skeleton.map((block) => (
+                  <div key={block.num}>
+                    <div style={{ fontFamily: "monospace", fontSize: 11, color: C.accent, marginBottom: ".4rem", fontWeight: 600 }}>
+                      {block.num}. {block.title}
+                    </div>
+                    <ul style={{ margin: 0, paddingLeft: "1.2rem", color: C.text, fontSize: ".9rem", lineHeight: 1.55 }}>
+                      {block.bullets.map((b, i) => (
+                        <li key={i} style={{ marginBottom: ".25rem" }}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+      <style>{`
+        @media (max-width: 720px) {
+          .eq-two-col { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* =========================================================  ACTIVITY  */
+function FunActivity() {
+  const pairs = [
+    { id: "a", left: "Second Great Awakening",  right: "Framed slavery as a personal sin" },
+    { id: "b", left: "Horace Mann",              right: "Founded the first normal schools" },
+    { id: "c", left: "Dorothea Dix",             right: "Memorial to the Massachusetts Legislature" },
+    { id: "d", left: "Maine Law 1851",           right: "First statewide alcohol prohibition" },
+    { id: "e", left: "Washingtonian Movement",   right: "Reformed drinkers sharing testimonials" },
+    { id: "f", left: "Cane Ridge Revival",       right: "Landmark 1801 Kentucky camp meeting" },
+  ];
+  const [shuffled] = useState(() => [...pairs].sort(() => Math.random() - 0.5));
+  const [matched, setMatched] = useState({});
+  const [selLeft, setSelLeft] = useState(null);
+  const [attempts, setAttempts] = useState(0);
+  const [done, setDone] = useState(false);
+  const [wrongFlash, setWrongFlash] = useState(null); // { leftId, rightId } for temporary highlight
+
+  const clickLeft = (id) => { if (matched[id]) return; setSelLeft(id); };
+  const clickRight = (id) => {
+    if (!selLeft) return;
+    setAttempts((a) => a + 1);
+    if (selLeft === id) {
+      const n = { ...matched, [id]: true };
+      setMatched(n);
+      if (Object.keys(n).length === pairs.length) setDone(true);
+      setWrongFlash(null);
+    } else {
+      // wrong pair: briefly blink both choices in red
+      setWrongFlash({ leftId: selLeft, rightId: id });
+      setTimeout(() => setWrongFlash(null), 550);
+    }
+    setSelLeft(null);
+  };
+  const reset = () => { setMatched({}); setSelLeft(null); setAttempts(0); setDone(false); };
+
+  return (
+    <section id="activity" style={{ background: C.surface, padding: "5rem 1.5rem", borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".22em", color: C.accentLo, textTransform: "uppercase", marginBottom: 8 }}>
+              Fun Activity
+            </div>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem, 3vw, 2.2rem)", color: C.hi, fontWeight: 900, marginBottom: 8 }}>
+              Match the Reformer to the Achievement
+            </h2>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: ".98rem", color: C.muted }}>
+              Select a term on the left, then its match on the right.
+            </p>
+          </div>
+        </Reveal>
+
+        {done ? (
+          <Reveal>
+            <div style={{ textAlign: "center", padding: "2.5rem", background: `${C.accent}0D`, border: `1px solid ${C.accent}50`, borderRadius: 14 }}>
+              <div style={{ fontSize: 48, marginBottom: ".8rem" }}>&#127942;</div>
+              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.8rem", color: C.accent, marginBottom: ".4rem" }}>Excellent!</h3>
+              <p style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: C.muted, marginBottom: "1.2rem" }}>
+                All {pairs.length} pairs matched in {attempts} attempts.
+              </p>
+              <button
+                onClick={reset}
+                style={{ padding: "9px 24px", borderRadius: 8, background: C.accent, border: "none", color: C.bg, fontFamily: "monospace", fontSize: 11, letterSpacing: ".1em", cursor: "pointer", textTransform: "uppercase" }}
+              >
+                Play Again
+              </button>
+            </div>
+          </Reveal>
+        ) : (
+          <>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem" }}>
+              <div>
+                <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".5rem" }}>Terms</div>
+                {pairs.map((p) => {
+                  const sel = selLeft === p.id;
+                  const isMatched = !!matched[p.id];
+                  const isWrongBlink = wrongFlash && wrongFlash.leftId === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => clickLeft(p.id)}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "10px 14px",
+                        borderRadius: 9,
+                        marginBottom: ".5rem",
+                        border: `1px solid ${
+                          isMatched
+                            ? "#4CAF5055"
+                            : isWrongBlink
+                            ? "#E53935"
+                            : sel
+                            ? C.accent
+                            : C.border
+                        }`,
+                        background: isMatched
+                          ? "#4CAF5010"
+                          : isWrongBlink
+                          ? "#E5393518"
+                          : sel
+                          ? `${C.accent}14`
+                          : C.card,
+                        color: isMatched
+                          ? "#81C784"
+                          : isWrongBlink
+                          ? "#FFCDD2"
+                          : C.text,
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".93rem",
+                        cursor: isMatched ? "default" : "pointer",
+                        transition: "all .18s",
+                        opacity: isMatched ? 0.6 : 1,
+                        boxSizing: "border-box",
+                        animation: isWrongBlink ? "blink-wrong 0.55s ease" : "none",
+                      }}
+                    >
+                      {isMatched ? "✓ " : ""}{p.left}
+                    </button>
+                  );
+                })}
+              </div>
+              <div>
+                <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".5rem" }}>Descriptions</div>
+                {shuffled.map((p) => {
+                  const isMatched = !!matched[p.id];
+                  const isWrongBlink = wrongFlash && wrongFlash.rightId === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => clickRight(p.id)}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "10px 14px",
+                        borderRadius: 9,
+                        marginBottom: ".5rem",
+                        border: `1px solid ${
+                          isMatched
+                            ? "#4CAF5055"
+                            : isWrongBlink
+                            ? "#E53935"
+                            : C.border
+                        }`,
+                        background: isMatched
+                          ? "#4CAF5010"
+                          : isWrongBlink
+                          ? "#E5393518"
+                          : C.card,
+                        color: isMatched
+                          ? "#81C784"
+                          : isWrongBlink
+                          ? "#FFCDD2"
+                          : C.text,
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".93rem",
+                        cursor: isMatched ? "default" : "pointer",
+                        transition: "all .18s",
+                        opacity: isMatched ? 0.6 : 1,
+                        boxSizing: "border-box",
+                        animation: isWrongBlink ? "blink-wrong 0.55s ease" : "none",
+                      }}
+                    >
+                      {isMatched ? "✓ " : ""}{p.right}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div style={{ marginTop: ".75rem", textAlign: "center", fontFamily: "monospace", fontSize: 11, color: C.muted }}>
+              Attempts: {attempts} &nbsp;|&nbsp; Matched: {Object.keys(matched).length} / {pairs.length}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================  BIBLIOGRAPHY  */
+function Bibliography() {
+  const entries = [
+    "\"Second Great Awakening.\" <em>Gale U.S. History Online Collection</em>, Gale, 2024. <em>Gale In Context: World History</em>, link.gale.com/apps/doc/JUHKAA341809897/WHIC?u=ebr22021&sid=bookmark-WHIC&xid=126bd276. Accessed 13 Mar. 2026.",
+    "Hirrel, Leo P. \"Awakening, Second.\" <em>Dictionary of American History</em>, edited by Stanley I. Kutler, 3rd ed., vol. 1, Charles Scribner&apos;s Sons, 2003, pp. 377–379. <em>Gale In Context: World History</em>, link.gale.com/apps/doc/CX3401800336/WHIC?u=ebr22021&sid=bookmark-WHIC&xid=97aa95e1. Accessed 13 Mar. 2026.",
+    "Kendall, Gavin. \"Literacy.\" <em>Encyclopedia of Children and Childhood: In History and Society</em>, edited by Paula S. Fass, vol. 2, Macmillan Reference USA, 2004, pp. 553–555. <em>Gale In Context: World History</em>, link.gale.com/apps/doc/CX3402800267/WHIC?u=ebr22021&sid=bookmark-WHIC&xid=595d9d2c. Accessed 13 Mar. 2026.",
+    "\"Dorothea Dix.\" <em>Historic World Leaders</em>, edited by Anne Commire, Gale, 1994. <em>Gale In Context: World History</em>, link.gale.com/apps/doc/K1616000188/WHIC?u=ebr22021&sid=bookmark-WHIC&xid=36cd4ee1. Accessed 13 Mar. 2026.",
+    "Nasalli-Rocca, E., et al. \"Hospitals, History of.\" <em>New Catholic Encyclopedia</em>, 2nd ed., vol. 7, Gale, 2003, pp. 126–134. <em>Gale In Context: World History</em>, link.gale.com/apps/doc/CX3407705412/WHIC?u=ebr22021&sid=bookmark-WHIC&xid=6d992d4b. Accessed 13 Mar. 2026.",
+    "\"Second Great Awakening.\" <em>Encyclopaedia Britannica</em>, Encyclopaedia Britannica, https://www.britannica.com/event/Second-Great-Awakening. Accessed 13 Mar. 2026.",
+    "\"Horace Mann.\" <em>Encyclopaedia Britannica</em>, Encyclopaedia Britannica, https://www.britannica.com/biography/Horace-Mann. Accessed 13 Mar. 2026.",
+    "\"Dorothea Dix.\" National Women&apos;s History Museum, https://www.womenshistory.org/education-resources/biographies/dorothea-dix. Accessed 13 Mar. 2026.",
+    "\"Reform Movements in the United States.\" Library of Congress, https://www.loc.gov/classroom-materials/united-states-history-primary-source-timeline/reform-movements. Accessed 13 Mar. 2026.",
+    "\"The Reform Era (1820–1860).\" National Park Service, https://www.nps.gov/articles/reform-era.htm. Accessed 13 Mar. 2026.",
+  ];
+
+  return (
+    <section id="bib" style={{ background: C.bg, padding: "4.5rem 1.5rem", borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 760, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".22em", color: C.accentLo, textTransform: "uppercase", marginBottom: 8 }}>Team C</div>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "1.9rem", color: C.hi, fontWeight: 900, marginBottom: "2rem" }}>Bibliography</h2>
+        </Reveal>
+        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.75rem" }}>
+          {entries.map((s, i) => (
+            <Reveal key={i} delay={i * 0.04}>
+              <p
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".94rem",
+                  color: C.muted,
+                  lineHeight: 1.7,
+                  marginBottom: "1rem",
+                  paddingLeft: "2rem",
+                  textIndent: "-2rem",
+                }}
+                dangerouslySetInnerHTML={{ __html: s }}
+              />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================  APP  */
+export default function App() {
+  const progress = useScrollPct();
+  const scrollY = useScrollY();
+  const allIds = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "bib"];
+  const active = useActiveSection(allIds);
+
+  return (
+    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", position: "relative" }}>
+      <style>{`
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: ${C.bg}; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+        @keyframes blink-wrong {
+          0% { opacity: 1; transform: translateX(0); }
+          30% { opacity: 0.3; transform: translateX(-2px); }
+          60% { opacity: 1; transform: translateX(2px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: ${C.bg}; }
+        ::-webkit-scrollbar-thumb { background: ${C.border}; border-radius: 2px; }
+        button:focus { outline: none; }
+        button { box-sizing: border-box; }
+        @media (max-width: 640px) {
+          .nav-desktop { display: none !important; }
+          .nav-burger  { display: flex !important; }
+        }
+      `}</style>
+
+      {/* hidden iframes preloading all 3D models as early as possible */}
+      <Preload3DModels />
+
+      <ProgressBar p={progress} />
+      <Nav active={active} />
+      <Dots active={active} />
+      <Hero scrollY={scrollY} />
+      <ContextSection />
+      {TOPICS.map((t) => <TopicSection key={t.id} topic={t} />)}
+      <EQSection />
+      <FunActivity />
+      <Bibliography />
+    </div>
+  );
+}
