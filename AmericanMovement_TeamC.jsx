@@ -486,13 +486,11 @@ function TriviaWheel() {
   const totalSegments = TRIVIA_QUESTIONS.length;
   const segmentAngle = 360 / totalSegments;
 
-  // different shades of grey around the wheel
-  const conicStops = TRIVIA_QUESTIONS.map((_, i) => {
+  // wheel segments use the topic key colors (same as slide decks)
+  const conicStops = TRIVIA_QUESTIONS.map((q, i) => {
     const start = i * segmentAngle;
     const end = (i + 1) * segmentAngle;
-    // cycle lightness between 24% and 52% to get distinct greys
-    const lightness = 24 + ((i % 8) / 7) * 28;
-    const col = `hsl(220, 8%, ${lightness}%)`;
+    const col = TOPIC_COLOR_BY_ID[q.topicId] || C.accent;
     return `${col} ${start}deg ${end}deg`;
   }).join(", ");
 
@@ -1140,7 +1138,7 @@ function TriviaWheel() {
                   ? selectedOption === currentQ.answer
                     ? "Correct! Now choose which team earns 1 point."
                     : "That’s not correct. Reveal the right answer, then still choose which team earns 1 point."
-                  : "Have the team agree on an answer choice, then click it to check."}
+                  : ""}
               </p>
 
               <div
