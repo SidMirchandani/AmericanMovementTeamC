@@ -505,6 +505,21 @@ function TriviaWheel() {
     TOPIC_COLOR_BY_ID.temperance,
   ];
 
+  // map each topic color to its topic id
+  const topicIdByColor = Object.entries(TOPIC_COLOR_BY_ID).reduce((acc, [topicId, color]) => {
+    acc[color] = topicId;
+    return acc;
+  }, {});
+
+  // precompute which wheel segment indices belong to which topic
+  const segmentsForTopicId = patternColors.reduce((acc, color, index) => {
+    const topicId = topicIdByColor[color];
+    if (!topicId) return acc;
+    if (!acc[topicId]) acc[topicId] = [];
+    acc[topicId].push(index);
+    return acc;
+  }, {});
+
   // wheel gradient: 4 slices of each key color around the circle
   const conicStops = Array.from({ length: WHEEL_SEGMENTS })
     .map((_, i) => {
@@ -529,10 +544,47 @@ function TriviaWheel() {
 
     const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
 
-    // spin the wheel nicely before revealing the popup
+    // figure out which wheel segments correspond to this question's topic
+    const segmentsForTopic = segmentsForTopicId[randomQuestion.topicId];
+
+    // if something is off, fall back to a random spin
+    if (!segmentsForTopic || segmentsForTopic.length === 0) {
+      const fallbackExtraSpins = 3 + Math.floor(Math.random() * 3);
+      const fallbackRandomOffset = Math.random() * 360;
+      const fallbackRotation = rotation + fallbackExtraSpins * 360 + fallbackRandomOffset;
+      setRotation(fallbackRotation);
+
+      setTimeout(() => {
+        setCurrentQ(randomQuestion);
+        if (!usedIds.includes(randomQuestion.id)) {
+          setUsedIds((prev) => [...prev, randomQuestion.id]);
+        }
+        setSpinning(false);
+      }, 1600);
+      return;
+    }
+
+    // choose one of that topic's segments at random
+    const segmentIndex =
+      segmentsForTopic[Math.floor(Math.random() * segmentsForTopic.length)];
+
+    // center angle of that segment within the conic gradient
+    const targetAngle = segmentAngle * segmentIndex + segmentAngle / 2;
+
+    // the pointer is visually at the top of the wheel; in a conic-gradient
+    // 0deg is at the right, 90deg bottom, 180deg left, 270deg top.
+    const POINTER_ANGLE = 270;
+
+    // we want the wheel's final rotation so that the segment's center ends up under the pointer
+    const targetRotationMod = (POINTER_ANGLE - targetAngle + 360) % 360;
+    const currentRotationMod = ((rotation % 360) + 360) % 360;
+
+    // minimal forward delta to land exactly on the desired segment
+    const baseDelta = (targetRotationMod - currentRotationMod + 360) % 360;
+
+    // add several full spins for a satisfying animation
     const extraSpins = 3 + Math.floor(Math.random() * 3); // 3–5 full spins
-    const randomOffset = Math.random() * 360;
-    const newRotation = rotation + extraSpins * 360 + randomOffset;
+    const newRotation = rotation + extraSpins * 360 + baseDelta;
     setRotation(newRotation);
 
     setTimeout(() => {
@@ -553,6 +605,8 @@ function TriviaWheel() {
   const handleAward = (teamKey) => {
     if (!currentQ || !hasAnswered) return;
     const correct = selectedOption === currentQ.answer;
+    // if the answer was wrong, no team can earn a point
+    if (!correct) return;
     setTeamScores((prev) => ({
       ...prev,
       [teamKey]: prev[teamKey] + (correct ? 1 : 0),
@@ -583,6 +637,21 @@ function TriviaWheel() {
   };
 
   const handleClosePopup = () => {
+    // if a team answered incorrectly, closing the popup advances the turn
+    if (
+      currentQ &&
+      hasAnswered &&
+      selectedOption !== null &&
+      selectedOption !== currentQ.answer
+    ) {
+      setCurrentTeamIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % teamsInOrder.length;
+        if (nextIndex === 0) {
+          setRound((r) => r + 1);
+        }
+        return nextIndex;
+      });
+    }
     setCurrentQ(null);
     setSelectedOption(null);
     setHasAnswered(false);
@@ -1157,7 +1226,7 @@ function TriviaWheel() {
                 {hasAnswered
                   ? selectedOption === currentQ.answer
                     ? "Correct! Now choose which team earns 1 point."
-                    : "That’s not correct. Reveal the right answer, then still choose which team earns 1 point."
+                    : "That’s not correct. Reveal the right answer — no team earns a point for this question. Close this popup to go to the next team."
                   : ""}
               </p>
 
@@ -1173,22 +1242,31 @@ function TriviaWheel() {
                   <button
                     key={t}
                     onClick={() => handleAward(t)}
-                    disabled={!hasAnswered}
+                    disabled={!hasAnswered || selectedOption !== currentQ.answer}
                     style={{
                       padding: "6px 10px",
                       borderRadius: 999,
                       border: `1px solid ${
-                        hasAnswered ? C.border : `${C.border}80`
+                        hasAnswered && selectedOption === currentQ.answer
+                          ? C.border
+                          : `${C.border}80`
                       }`,
-                      background: hasAnswered
-                        ? "transparent"
-                        : "rgba(15,15,20,0.8)",
-                      color: hasAnswered ? C.text : C.muted,
+                      background:
+                        hasAnswered && selectedOption === currentQ.answer
+                          ? "transparent"
+                          : "rgba(15,15,20,0.8)",
+                      color:
+                        hasAnswered && selectedOption === currentQ.answer
+                          ? C.text
+                          : C.muted,
                       fontFamily: "monospace",
                       fontSize: 10,
                       letterSpacing: ".14em",
                       textTransform: "uppercase",
-                      cursor: hasAnswered ? "pointer" : "default",
+                      cursor:
+                        hasAnswered && selectedOption === currentQ.answer
+                          ? "pointer"
+                          : "default",
                     }}
                   >
                     Give point to Team {t}
@@ -1677,7 +1755,6 @@ function Nav({ active }) {
     { id: "context", label: "Context" },
     ...TOPICS.map((t) => ({ id: t.id, label: t.num, color: t.color })),
     { id: "eq",      label: "EQ" },
-    { id: "activity", label: "Activity" },
     { id: "wheel",   label: "The Wheel" },
     { id: "bib",      label: "Bibliography" },
   ];
@@ -1743,7 +1820,6 @@ function Nav({ active }) {
             </button>
           ))}
           <div style={{ width: 1, height: 16, background: C.border, margin: "0 4px" }} />
-          <button onClick={() => go("activity")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "activity" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Activity</button>
           <button onClick={() => go("wheel")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "wheel" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>The Wheel</button>
           <button onClick={() => go("bib")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "bib" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Bibliography</button>
         </div>
@@ -1818,7 +1894,7 @@ function Nav({ active }) {
 
 /* =========================================================  DOTS  */
 function Dots({ active }) {
-  const ids = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "wheel", "bib"];
+  const ids = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "wheel", "bib"];
   return (
     <div style={{ position: "fixed", right: 14, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 300 }}>
       {ids.map((id) => {
@@ -3445,190 +3521,6 @@ function EQSection() {
   );
 }
 
-/* =========================================================  ACTIVITY  */
-function FunActivity() {
-  const pairs = [
-    { id: "a", left: "Second Great Awakening",  right: "Framed slavery as a personal sin" },
-    { id: "b", left: "Horace Mann",              right: "Founded the first normal schools" },
-    { id: "c", left: "Dorothea Dix",             right: "Memorial to the Massachusetts Legislature" },
-    { id: "d", left: "Maine Law 1851",           right: "First statewide alcohol prohibition" },
-    { id: "e", left: "Washingtonian Movement",   right: "Reformed drinkers sharing testimonials" },
-    { id: "f", left: "Cane Ridge Revival",       right: "Landmark 1801 Kentucky camp meeting" },
-  ];
-  const [shuffled] = useState(() => [...pairs].sort(() => Math.random() - 0.5));
-  const [matched, setMatched] = useState({});
-  const [selLeft, setSelLeft] = useState(null);
-  const [attempts, setAttempts] = useState(0);
-  const [done, setDone] = useState(false);
-  const [wrongFlash, setWrongFlash] = useState(null); // { leftId, rightId } for temporary highlight
-
-  const clickLeft = (id) => { if (matched[id]) return; setSelLeft(id); };
-  const clickRight = (id) => {
-    if (!selLeft) return;
-    setAttempts((a) => a + 1);
-    if (selLeft === id) {
-      const n = { ...matched, [id]: true };
-      setMatched(n);
-      if (Object.keys(n).length === pairs.length) setDone(true);
-      setWrongFlash(null);
-    } else {
-      // wrong pair: briefly blink both choices in red
-      setWrongFlash({ leftId: selLeft, rightId: id });
-      setTimeout(() => setWrongFlash(null), 550);
-    }
-    setSelLeft(null);
-  };
-  const reset = () => { setMatched({}); setSelLeft(null); setAttempts(0); setDone(false); };
-
-  return (
-    <section id="activity" style={{ background: C.surface, padding: "5rem 1.5rem", borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".22em", color: C.accentLo, textTransform: "uppercase", marginBottom: 8 }}>
-              Fun Activity
-            </div>
-            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem, 3vw, 2.2rem)", color: C.hi, fontWeight: 900, marginBottom: 8 }}>
-              Match the Reformer to the Achievement
-            </h2>
-            <p style={{ fontFamily: "Georgia, serif", fontSize: ".98rem", color: C.muted, maxWidth: 620, margin: "0 auto" }}>
-              Select a term on the left, then its match on the right. For our larger game, we play in team order
-              <span style={{ fontWeight: 600, color: C.hi }}> A → B → D → E → F → G</span> (skipping Team C since we are Team C),
-              and each round we increment the team and round number (for example: A1 for Round 1, A2 for Round 2, A3 for Round 3, and so on).
-              Questions in the game are color-coded by topic using the same colors as the slide decks.
-            </p>
-          </div>
-        </Reveal>
-
-        {done ? (
-          <Reveal>
-            <div style={{ textAlign: "center", padding: "2.5rem", background: `${C.accent}0D`, border: `1px solid ${C.accent}50`, borderRadius: 14 }}>
-              <div style={{ fontSize: 48, marginBottom: ".8rem" }}>&#127942;</div>
-              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.8rem", color: C.accent, marginBottom: ".4rem" }}>Excellent!</h3>
-              <p style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: C.muted, marginBottom: "1.2rem" }}>
-                All {pairs.length} pairs matched in {attempts} attempts.
-              </p>
-              <button
-                onClick={reset}
-                style={{ padding: "9px 24px", borderRadius: 8, background: C.accent, border: "none", color: C.bg, fontFamily: "monospace", fontSize: 11, letterSpacing: ".1em", cursor: "pointer", textTransform: "uppercase" }}
-              >
-                Play Again
-              </button>
-            </div>
-          </Reveal>
-        ) : (
-          <>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem" }}>
-              <div>
-                <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".5rem" }}>Terms</div>
-                {pairs.map((p) => {
-                  const sel = selLeft === p.id;
-                  const isMatched = !!matched[p.id];
-                  const isWrongBlink = wrongFlash && wrongFlash.leftId === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => clickLeft(p.id)}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textAlign: "left",
-                        padding: "10px 14px",
-                        borderRadius: 9,
-                        marginBottom: ".5rem",
-                        border: `1px solid ${
-                          isMatched
-                            ? "#4CAF5055"
-                            : isWrongBlink
-                            ? "#E53935"
-                            : sel
-                            ? C.accent
-                            : C.border
-                        }`,
-                        background: isMatched
-                          ? "#4CAF5010"
-                          : isWrongBlink
-                          ? "#E5393518"
-                          : sel
-                          ? `${C.accent}14`
-                          : C.card,
-                        color: isMatched
-                          ? "#81C784"
-                          : isWrongBlink
-                          ? "#FFCDD2"
-                          : C.text,
-                        fontFamily: "Georgia, serif",
-                        fontSize: ".93rem",
-                        cursor: isMatched ? "default" : "pointer",
-                        transition: "all .18s",
-                        opacity: isMatched ? 0.6 : 1,
-                        boxSizing: "border-box",
-                        animation: isWrongBlink ? "blink-wrong 0.55s ease" : "none",
-                      }}
-                    >
-                      {isMatched ? "✓ " : ""}{p.left}
-                    </button>
-                  );
-                })}
-              </div>
-              <div>
-                <div style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: C.muted, textTransform: "uppercase", marginBottom: ".5rem" }}>Descriptions</div>
-                {shuffled.map((p) => {
-                  const isMatched = !!matched[p.id];
-                  const isWrongBlink = wrongFlash && wrongFlash.rightId === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => clickRight(p.id)}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textAlign: "left",
-                        padding: "10px 14px",
-                        borderRadius: 9,
-                        marginBottom: ".5rem",
-                        border: `1px solid ${
-                          isMatched
-                            ? "#4CAF5055"
-                            : isWrongBlink
-                            ? "#E53935"
-                            : C.border
-                        }`,
-                        background: isMatched
-                          ? "#4CAF5010"
-                          : isWrongBlink
-                          ? "#E5393518"
-                          : C.card,
-                        color: isMatched
-                          ? "#81C784"
-                          : isWrongBlink
-                          ? "#FFCDD2"
-                          : C.text,
-                        fontFamily: "Georgia, serif",
-                        fontSize: ".93rem",
-                        cursor: isMatched ? "default" : "pointer",
-                        transition: "all .18s",
-                        opacity: isMatched ? 0.6 : 1,
-                        boxSizing: "border-box",
-                        animation: isWrongBlink ? "blink-wrong 0.55s ease" : "none",
-                      }}
-                    >
-                      {isMatched ? "✓ " : ""}{p.right}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div style={{ marginTop: ".75rem", textAlign: "center", fontFamily: "monospace", fontSize: 11, color: C.muted }}>
-              Attempts: {attempts} &nbsp;|&nbsp; Matched: {Object.keys(matched).length} / {pairs.length}
-            </div>
-          </>
-        )}
-      </div>
-    </section>
-  );
-}
-
 /* =========================================================  BIBLIOGRAPHY  */
 function Bibliography() {
   const entries = [
@@ -3678,7 +3570,7 @@ function Bibliography() {
 export default function App() {
   const progress = useScrollPct();
   const scrollY = useScrollY();
-  const allIds = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "wheel", "bib"];
+  const allIds = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "wheel", "bib"];
   const active = useActiveSection(allIds);
 
   return (
@@ -3716,7 +3608,6 @@ export default function App() {
       <ContextSection />
       {TOPICS.map((t) => <TopicSection key={t.id} topic={t} />)}
       <EQSection />
-      <FunActivity />
       <TriviaWheel />
       <Bibliography />
     </div>
