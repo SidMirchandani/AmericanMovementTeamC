@@ -463,6 +463,741 @@ function Preload3DModels() {
   );
 }
 
+/* =========================================================  THE WHEEL  */
+function TriviaWheel() {
+  const [rotation, setRotation] = useState(0);
+  const [usedIds, setUsedIds] = useState([]);
+  const [currentQ, setCurrentQ] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [teamScores, setTeamScores] = useState({
+    A: 0,
+    B: 0,
+    D: 0,
+    E: 0,
+    F: 0,
+    G: 0,
+  });
+  const [round, setRound] = useState(1);
+  const [currentTeamIndex, setCurrentTeamIndex] = useState(0); // index into order array
+  const [spinning, setSpinning] = useState(false);
+  const teamsInOrder = ["A", "B", "D", "E", "F", "G"];
+
+  const totalSegments = TRIVIA_QUESTIONS.length;
+  const segmentAngle = 360 / totalSegments;
+
+  // different shades of grey around the wheel
+  const conicStops = TRIVIA_QUESTIONS.map((_, i) => {
+    const start = i * segmentAngle;
+    const end = (i + 1) * segmentAngle;
+    // cycle lightness between 24% and 52% to get distinct greys
+    const lightness = 24 + ((i % 8) / 7) * 28;
+    const col = `hsl(220, 8%, ${lightness}%)`;
+    return `${col} ${start}deg ${end}deg`;
+  }).join(", ");
+
+  const availableQuestions =
+    usedIds.length === TRIVIA_QUESTIONS.length
+      ? TRIVIA_QUESTIONS
+      : TRIVIA_QUESTIONS.filter((q) => !usedIds.includes(q.id));
+
+  const activeTeamKey = teamsInOrder[currentTeamIndex];
+
+  const spinWheel = () => {
+    if (spinning) return;
+    setSpinning(true);
+    setSelectedOption(null);
+    setHasAnswered(false);
+
+    const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+
+    // spin the wheel nicely before revealing the popup
+    const extraSpins = 3 + Math.floor(Math.random() * 3); // 3–5 full spins
+    const randomOffset = Math.random() * 360;
+    const newRotation = rotation + extraSpins * 360 + randomOffset;
+    setRotation(newRotation);
+
+    setTimeout(() => {
+      setCurrentQ(randomQuestion);
+      if (!usedIds.includes(randomQuestion.id)) {
+        setUsedIds((prev) => [...prev, randomQuestion.id]);
+      }
+      setSpinning(false);
+    }, 1600);
+  };
+
+  const handleAnswer = (index) => {
+    if (!currentQ) return;
+    setSelectedOption(index);
+    setHasAnswered(true);
+  };
+
+  const handleAward = (teamKey) => {
+    if (!currentQ || !hasAnswered) return;
+    const correct = selectedOption === currentQ.answer;
+    setTeamScores((prev) => ({
+      ...prev,
+      [teamKey]: prev[teamKey] + (correct ? 1 : 0),
+    }));
+
+    // advance team/round: A → B → D → E → F → G → back to A and increment round
+    setCurrentTeamIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % teamsInOrder.length;
+      if (nextIndex === 0) {
+        setRound((r) => r + 1);
+      }
+      return nextIndex;
+    });
+
+    setCurrentQ(null);
+    setSelectedOption(null);
+    setHasAnswered(false);
+  };
+
+  const resetGame = () => {
+    setUsedIds([]);
+    setCurrentQ(null);
+    setSelectedOption(null);
+    setHasAnswered(false);
+    setTeamScores({ A: 0, B: 0, D: 0, E: 0, F: 0, G: 0 });
+    setRound(1);
+    setCurrentTeamIndex(0);
+  };
+
+  const handleClosePopup = () => {
+    setCurrentQ(null);
+    setSelectedOption(null);
+    setHasAnswered(false);
+  };
+
+  return (
+    <section
+      id="wheel"
+      style={{
+        background: C.bg,
+        padding: "4.5rem 1.5rem 5rem",
+        borderTop: `1px solid ${C.border}`,
+      }}
+    >
+      <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                letterSpacing: ".22em",
+                color: C.accentLo,
+                textTransform: "uppercase",
+                marginBottom: 8,
+              }}
+            >
+              Game Extension
+            </div>
+            <h2
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: "clamp(1.5rem, 3vw, 2.3rem)",
+                color: C.hi,
+                fontWeight: 900,
+                marginBottom: 10,
+              }}
+            >
+              The Wheel
+            </h2>
+            <p
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: ".98rem",
+                color: C.muted,
+                maxWidth: 720,
+                margin: "0 auto",
+                lineHeight: 1.7,
+              }}
+            >
+              Press the button to “spin the wheel” and draw a random question in a popup. The team whose turn
+              it is answers the question, then chooses which team to award the point to. We go in order{" "}
+              <span style={{ fontWeight: 600, color: C.hi }}>A → B → D → E → F → G</span> (skipping Team C
+              because we are Team C), and each full cycle increases the round number
+              (A1 for Round 1, A2 for Round 2, A3 for Round 3, etc.).
+            </p>
+          </div>
+        </Reveal>
+
+        {/* layout: wheel + sidebar */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr)",
+            gap: "2.2rem",
+            alignItems: "stretch",
+          }}
+        >
+          {/* Wheel + summary */}
+          <Reveal>
+            <div
+              style={{
+                borderRadius: 18,
+                border: `1px solid ${C.border}`,
+                background: C.surface,
+                padding: "1.8rem 1.9rem 2rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  letterSpacing: ".16em",
+                  color: C.muted,
+                  textTransform: "uppercase",
+                  marginBottom: ".4rem",
+                }}
+              >
+                Tap the wheel to spin
+              </div>
+
+              <div
+                style={{
+                  position: "relative",
+                  width: "min(320px, 70vw)",
+                  aspectRatio: "1 / 1",
+                }}
+              >
+                {/* pointer */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 0,
+                    height: 0,
+                    borderLeft: "10px solid transparent",
+                    borderRight: "10px solid transparent",
+                    borderBottom: `16px solid ${C.hi}`,
+                    zIndex: 3,
+                  }}
+                />
+
+                {/* wheel disc */}
+                <button
+                  onClick={spinWheel}
+                  disabled={spinning}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    margin: "auto",
+                    borderRadius: "50%",
+                    border: `2px solid ${C.border}`,
+                    backgroundImage: `conic-gradient(${conicStops})`,
+                    cursor: spinning ? "default" : "pointer",
+                    transition: "transform 1.6s cubic-bezier(0.19, 1, 0.22, 1)",
+                    transform: `rotate(${rotation}deg)`,
+                    boxShadow: "0 20px 50px rgba(0,0,0,0.7)",
+                  }}
+                >
+                  {/* center label */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: "22%",
+                      borderRadius: "50%",
+                      background: C.card,
+                      border: `1px solid ${C.border}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      gap: 4,
+                      padding: "0.4rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: 10,
+                        letterSpacing: ".14em",
+                        color: C.muted,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Spin
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        fontSize: "1.1rem",
+                        color: C.hi,
+                        fontWeight: 700,
+                      }}
+                    >
+                      The Wheel
+                    </span>
+                  </div>
+                </button>
+              </div>
+
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  color: C.muted,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                }}
+              >
+                {usedIds.length} / {TRIVIA_QUESTIONS.length} questions used this session
+              </div>
+
+              <button
+                onClick={resetGame}
+                style={{
+                  marginTop: ".6rem",
+                  padding: "6px 14px",
+                  borderRadius: 999,
+                  border: `1px solid ${C.border}`,
+                  background: "transparent",
+                  color: C.muted,
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                }}
+              >
+                Reset scores & questions
+              </button>
+            </div>
+          </Reveal>
+
+          {/* Sidebar: directions, color key, scoreboard */}
+          <Reveal delay={0.08}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.5rem",
+              }}
+            >
+              {/* Directions */}
+              <div
+                style={{
+                  borderRadius: 14,
+                  border: `1px solid ${C.border}`,
+                  background: C.surface,
+                  padding: "1.4rem 1.5rem",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    letterSpacing: ".18em",
+                    textTransform: "uppercase",
+                    color: C.muted,
+                    marginBottom: ".6rem",
+                  }}
+                >
+                  How to Play
+                </div>
+                <ol
+                  style={{
+                    margin: 0,
+                    paddingLeft: "1.2rem",
+                    fontFamily: "Georgia, serif",
+                    fontSize: ".9rem",
+                    color: C.text,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <li>Teams sit in order A, B, D, E, F, G (Team C presents the game).</li>
+                  <li>The current team presses “Spin The Wheel” to draw a random question popup.</li>
+                  <li>The popup shows the multiple-choice question; the team chooses an answer.</li>
+                  <li>Right or wrong, the answering team then chooses which team earns the point.</li>
+                  <li>
+                    After each question, move to the next team in the order; when you return to Team A,
+                    increase the round number (A1, A2, A3, ...).
+                  </li>
+                </ol>
+              </div>
+
+              {/* Color key */}
+              <div
+                style={{
+                  borderRadius: 14,
+                  border: `1px solid ${C.border}`,
+                  background: C.surface,
+                  padding: "1.3rem 1.5rem 1.2rem",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    letterSpacing: ".18em",
+                    textTransform: "uppercase",
+                    color: C.muted,
+                    marginBottom: ".6rem",
+                  }}
+                >
+                  Color Key (Matches Slide Decks)
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.5rem 1rem",
+                    fontFamily: "Georgia, serif",
+                    fontSize: ".9rem",
+                    color: C.text,
+                  }}
+                >
+                  {[
+                    { id: "awakening", label: "Second Great Awakening" },
+                    { id: "mann", label: "Horace Mann & Public Education" },
+                    { id: "dix", label: "Dorothea Dix & Mental Health" },
+                    { id: "temperance", label: "American Temperance Union" },
+                  ].map((t) => (
+                    <div
+                      key={t.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: 4,
+                          background: TOPIC_COLOR_BY_ID[t.id],
+                          border: `1px solid ${C.border}`,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scores */}
+              <div
+                style={{
+                  borderRadius: 14,
+                  border: `1px solid ${C.border}`,
+                  background: C.surface,
+                  padding: "1.4rem 1.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.9rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "baseline",
+                    gap: 8,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: 9,
+                      letterSpacing: ".18em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
+                  >
+                    Scoreboard
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: 10,
+                      color: C.muted,
+                      letterSpacing: ".14em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Round {round} — Team {activeTeamKey}&apos;s turn
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 6,
+                  }}
+                >
+                  {teamsInOrder.map((t) => (
+                    <div
+                      key={t}
+                      style={{
+                        padding: "6px 10px",
+                        borderRadius: 999,
+                        border:
+                          t === activeTeamKey
+                            ? `1px solid ${C.accent}`
+                            : `1px solid ${C.border}`,
+                        background:
+                          t === activeTeamKey ? `${C.accent}18` : "transparent",
+                        fontFamily: "monospace",
+                        fontSize: 11,
+                        color: t === activeTeamKey ? C.accent : C.muted,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}
+                    >
+                      <span>Team {t}</span>
+                      <span
+                        style={{
+                          padding: "2px 6px",
+                          borderRadius: 6,
+                          background: C.card,
+                          border: `1px solid ${C.border}`,
+                          color: C.hi,
+                          fontSize: 11,
+                          minWidth: 18,
+                          textAlign: "center",
+                        }}
+                      >
+                        {teamScores[t]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Popup for current question */}
+        {currentQ && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.75)",
+              zIndex: 999,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1.5rem",
+            }}
+            aria-modal="true"
+            role="dialog"
+          >
+            <div
+              style={{
+                maxWidth: 720,
+                width: "100%",
+                background: C.surface,
+                borderRadius: 18,
+                border: `1px solid ${C.border}`,
+                boxShadow: "0 22px 60px rgba(0,0,0,0.9)",
+                padding: "1.8rem 1.9rem 1.7rem",
+                position: "relative",
+              }}
+            >
+              {/* close button */}
+              <button
+                onClick={handleClosePopup}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 12,
+                  border: "none",
+                  background: "transparent",
+                  color: C.muted,
+                  cursor: "pointer",
+                  fontSize: 18,
+                  lineHeight: 1,
+                }}
+                aria-label="Close question popup"
+              >
+                ×
+              </button>
+
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 9,
+                  letterSpacing: ".18em",
+                  textTransform: "uppercase",
+                  color: TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent,
+                  marginBottom: ".5rem",
+                }}
+              >
+                The Wheel —{" "}
+                {currentQ.topicId === "awakening" && "Second Great Awakening"}
+                {currentQ.topicId === "mann" && "Horace Mann & Education"}
+                {currentQ.topicId === "dix" && "Dorothea Dix & Mental Health"}
+                {currentQ.topicId === "temperance" && "Temperance Movement"}
+              </div>
+              <h3
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: "1.2rem",
+                  color: C.hi,
+                  marginBottom: ".75rem",
+                }}
+              >
+                Question {currentQ.id}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".98rem",
+                  color: C.text,
+                  lineHeight: 1.7,
+                  marginBottom: ".8rem",
+                }}
+              >
+                {currentQ.prompt}
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".35rem",
+                  marginBottom: ".8rem",
+                }}
+              >
+                {currentQ.options.map((opt, idx) => {
+                  const isSel = selectedOption === idx;
+                  const isCorrect = hasAnswered && idx === currentQ.answer;
+                  const isWrong = hasAnswered && isSel && idx !== currentQ.answer;
+                  const letter = String.fromCharCode(65 + idx);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => handleAnswer(idx)}
+                      style={{
+                        textAlign: "left",
+                        padding: "7px 10px",
+                        borderRadius: 8,
+                        border: "none",
+                        background: isCorrect
+                          ? "#4CAF5020"
+                          : isWrong
+                          ? "#E5393520"
+                          : isSel
+                          ? `${TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent}22`
+                          : C.card,
+                        color: isCorrect
+                          ? "#81C784"
+                          : isWrong
+                          ? "#EF9A9A"
+                          : C.text,
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".9rem",
+                        cursor: "pointer",
+                        transition: "all .18s",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "monospace",
+                          fontSize: 10,
+                          opacity: 0.8,
+                          marginRight: 6,
+                        }}
+                      >
+                        {letter}.
+                      </span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: ".9rem",
+                  color: hasAnswered
+                    ? selectedOption === currentQ.answer
+                      ? "#81C784"
+                      : "#EF9A9A"
+                    : C.muted,
+                  marginBottom: ".7rem",
+                }}
+              >
+                {hasAnswered
+                  ? selectedOption === currentQ.answer
+                    ? "Correct! Now choose which team earns 1 point."
+                    : "That’s not correct. Reveal the right answer, then still choose which team earns 1 point."
+                  : "Have the team agree on an answer choice, then click it to check."}
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 6,
+                  marginBottom: ".2rem",
+                }}
+              >
+                {teamsInOrder.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => handleAward(t)}
+                    disabled={!hasAnswered}
+                    style={{
+                      padding: "6px 10px",
+                      borderRadius: 999,
+                      border: `1px solid ${
+                        hasAnswered ? C.border : `${C.border}80`
+                      }`,
+                      background: hasAnswered
+                        ? "transparent"
+                        : "rgba(15,15,20,0.8)",
+                      color: hasAnswered ? C.text : C.muted,
+                      fontFamily: "monospace",
+                      fontSize: 10,
+                      letterSpacing: ".14em",
+                      textTransform: "uppercase",
+                      cursor: hasAnswered ? "pointer" : "default",
+                    }}
+                  >
+                    Give point to Team {t}
+                  </button>
+                ))}
+              </div>
+
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  color: C.muted,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                  marginTop: ".4rem",
+                }}
+              >
+                Round {round} — Team {activeTeamKey}&apos;s turn
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 const TIMELINE_EVENTS = [
   { year: "1801", label: "Cane Ridge Revival",          color: "#C8A96A", topic: "awakening" },
   { year: "1820", label: "2nd Great Awakening peaks",   color: "#C8A96A", topic: "awakening" },
@@ -473,6 +1208,306 @@ const TIMELINE_EVENTS = [
   { year: "1848", label: "Mann's 12th Annual Report",   color: "#7DB5A0", topic: "mann" },
   { year: "1851", label: "Maine Law passes",            color: "#D4706A", topic: "temperance" },
   { year: "1854", label: "Pierce vetoes asylum bill",   color: "#9B7EC8", topic: "dix" },
+];
+
+// Trivia questions for "The Wheel" activity
+const TOPIC_COLOR_BY_ID = TOPICS.reduce((acc, t) => {
+  acc[t.id] = t.color;
+  return acc;
+}, {});
+
+const TRIVIA_QUESTIONS = [
+  // Section 1 — Second Great Awakening (awakening)
+  {
+    id: 1,
+    topicId: "awakening",
+    shortLabel: "Awakening 1",
+    prompt: "Which statement best describes the Second Great Awakening?",
+    options: [
+      "A political revolution against British rule",
+      "A religious revival movement that spread across the United States",
+      "A movement to industrialize northern cities",
+      "A military campaign during the War of 1812",
+    ],
+    answer: 1,
+  },
+  {
+    id: 2,
+    topicId: "awakening",
+    shortLabel: "Awakening 2",
+    prompt: "What was a central belief of the Second Great Awakening?",
+    options: [
+      "Salvation was predetermined for only a few people",
+      "Only clergy could interpret the Bible",
+      "Individuals could choose salvation through personal faith",
+      "Religion should stay out of society",
+    ],
+    answer: 2,
+  },
+  {
+    id: 3,
+    topicId: "awakening",
+    shortLabel: "Awakening 3",
+    prompt: "Where did many revival meetings during the Second Great Awakening occur?",
+    options: ["Outdoor camp meetings", "Government buildings", "Universities", "Military camps"],
+    answer: 0,
+  },
+  {
+    id: 4,
+    topicId: "awakening",
+    shortLabel: "Awakening 4",
+    prompt: "Which groups experienced rapid growth during the Second Great Awakening?",
+    options: ["Catholic monasteries", "Anglican churches", "Jewish congregations", "Methodist and Baptist churches"],
+    answer: 3,
+  },
+  {
+    id: 5,
+    topicId: "awakening",
+    shortLabel: "Awakening 5",
+    prompt: "What effect did the Second Great Awakening have on reform movements?",
+    options: [
+      "It discouraged social activism",
+      "It inspired movements to improve society",
+      "It eliminated religious influence in politics",
+      "It prevented new religious groups from forming",
+    ],
+    answer: 1,
+  },
+  {
+    id: 6,
+    topicId: "awakening",
+    shortLabel: "Awakening 6",
+    prompt: "The Cane Ridge Revival of 1801 is significant because it",
+    options: [
+      "created the first American church law",
+      "ended the Second Great Awakening",
+      "was one of the largest revival meetings in U.S. history",
+      "established the Methodist Church",
+    ],
+    answer: 2,
+  },
+  // Section 2 — Horace Mann and Public Education (mann)
+  {
+    id: 7,
+    topicId: "mann",
+    shortLabel: "Mann 1",
+    prompt: "Horace Mann is best known for promoting",
+    options: [
+      "the American common school system",
+      "religious education in churches",
+      "private schooling for wealthy families",
+      "military training in schools",
+    ],
+    answer: 0,
+  },
+  {
+    id: 8,
+    topicId: "mann",
+    shortLabel: "Mann 2",
+    prompt: "What position did Horace Mann hold that allowed him to influence education reform?",
+    options: [
+      "U.S. Secretary of Education",
+      "Secretary of the Massachusetts Board of Education",
+      "Governor of Massachusetts",
+      "President of Harvard University",
+    ],
+    answer: 1,
+  },
+  {
+    id: 9,
+    topicId: "mann",
+    shortLabel: "Mann 3",
+    prompt: "What was the purpose of the “common school”?",
+    options: [
+      "To train soldiers",
+      "To prepare students only for college",
+      "To educate children from all social classes",
+      "To replace church education",
+    ],
+    answer: 2,
+  },
+  {
+    id: 10,
+    topicId: "mann",
+    shortLabel: "Mann 4",
+    prompt: "Horace Mann believed education was important because it",
+    options: [
+      "increased church attendance",
+      "reduced immigration",
+      "helped strengthen democracy",
+      "increased factory production",
+    ],
+    answer: 2,
+  },
+  {
+    id: 11,
+    topicId: "mann",
+    shortLabel: "Mann 5",
+    prompt: "What were “normal schools”?",
+    options: [
+      "Schools for average students",
+      "Schools designed to train teachers",
+      "Religious schools for clergy",
+      "Schools that taught industrial skills",
+    ],
+    answer: 1,
+  },
+  {
+    id: 12,
+    topicId: "mann",
+    shortLabel: "Mann 6",
+    prompt: "One result of Mann’s reforms was",
+    options: [
+      "increased literacy rates",
+      "the elimination of public schools",
+      "the end of private education",
+      "fewer trained teachers",
+    ],
+    answer: 0,
+  },
+  // Section 3 — Dorothea Dix and Mental Health Reform (dix)
+  {
+    id: 13,
+    topicId: "dix",
+    shortLabel: "Dix 1",
+    prompt: "Dorothea Dix became a reformer after discovering that",
+    options: [
+      "schools were poorly funded",
+      "hospitals refused to treat immigrants",
+      "mentally ill people were kept in prisons",
+      "children worked in factories",
+    ],
+    answer: 2,
+  },
+  {
+    id: 14,
+    topicId: "dix",
+    shortLabel: "Dix 2",
+    prompt: "What profession did Dorothea Dix originally hold?",
+    options: ["Lawyer", "Teacher", "Doctor", "Journalist"],
+    answer: 1,
+  },
+  {
+    id: 15,
+    topicId: "dix",
+    shortLabel: "Dix 3",
+    prompt: "Dix gathered evidence of poor treatment by",
+    options: [
+      "interviewing doctors only",
+      "reading newspaper articles",
+      "visiting prisons and institutions",
+      "attending government meetings",
+    ],
+    answer: 2,
+  },
+  {
+    id: 16,
+    topicId: "dix",
+    shortLabel: "Dix 4",
+    prompt: "Dix presented her findings to",
+    options: [
+      "foreign governments",
+      "church leaders only",
+      "private companies",
+      "state legislatures",
+    ],
+    answer: 3,
+  },
+  {
+    id: 17,
+    topicId: "dix",
+    shortLabel: "Dix 5",
+    prompt: "One result of Dix’s work was",
+    options: [
+      "the closure of all prisons",
+      "the creation of mental hospitals",
+      "the elimination of hospitals",
+      "the end of mental illness treatment",
+    ],
+    answer: 1,
+  },
+  {
+    id: 18,
+    topicId: "dix",
+    shortLabel: "Dix 6",
+    prompt: "Dorothea Dix’s reform movement focused mainly on",
+    options: [
+      "economic policy",
+      "humanitarian treatment of the mentally ill",
+      "industrial reform",
+      "immigration laws",
+    ],
+    answer: 1,
+  },
+  // Section 4 — American Temperance Union (temperance)
+  {
+    id: 19,
+    topicId: "temperance",
+    shortLabel: "Temperance 1",
+    prompt: "The temperance movement focused primarily on reducing",
+    options: ["alcohol consumption", "poverty", "immigration", "factory labor"],
+    answer: 0,
+  },
+  {
+    id: 20,
+    topicId: "temperance",
+    shortLabel: "Temperance 2",
+    prompt: "Why did reformers oppose heavy drinking?",
+    options: [
+      "It increased church attendance",
+      "It improved worker productivity",
+      "It caused social and family problems",
+      "It helped expand cities",
+    ],
+    answer: 2,
+  },
+  {
+    id: 21,
+    topicId: "temperance",
+    shortLabel: "Temperance 3",
+    prompt: "The American Temperance Union encouraged people to",
+    options: [
+      "open more taverns",
+      "reduce church influence",
+      "pledge to stop drinking alcohol",
+      "drink only imported alcohol",
+    ],
+    answer: 2,
+  },
+  {
+    id: 22,
+    topicId: "temperance",
+    shortLabel: "Temperance 4",
+    prompt: "What method did temperance reformers often use to spread their message?",
+    options: ["Military campaigns", "Court trials", "Public meetings and pledges", "Trade agreements"],
+    answer: 2,
+  },
+  {
+    id: 23,
+    topicId: "temperance",
+    shortLabel: "Temperance 5",
+    prompt: "Which law reflected the influence of the temperance movement?",
+    options: [
+      "Fugitive Slave Act",
+      "Missouri Compromise",
+      "Kansas-Nebraska Act",
+      "Maine Law of 1851",
+    ],
+    answer: 3,
+  },
+  {
+    id: 24,
+    topicId: "temperance",
+    shortLabel: "Temperance 6",
+    prompt: "The Washingtonian Movement was notable because it",
+    options: [
+      "banned all taverns nationwide",
+      "supported alcohol manufacturing",
+      "was led by federal officials",
+      "used personal stories from recovering drinkers",
+    ],
+    answer: 3,
+  },
 ];
 
 /* =========================================================  HOOKS  */
@@ -625,6 +1660,7 @@ function Nav({ active }) {
     ...TOPICS.map((t) => ({ id: t.id, label: t.num, color: t.color })),
     { id: "eq",      label: "EQ" },
     { id: "activity", label: "Activity" },
+    { id: "wheel",   label: "The Wheel" },
     { id: "bib",      label: "Bibliography" },
   ];
 
@@ -690,6 +1726,7 @@ function Nav({ active }) {
           ))}
           <div style={{ width: 1, height: 16, background: C.border, margin: "0 4px" }} />
           <button onClick={() => go("activity")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "activity" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Activity</button>
+          <button onClick={() => go("wheel")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "wheel" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>The Wheel</button>
           <button onClick={() => go("bib")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, fontFamily: "monospace", color: active === "bib" ? C.accent : C.muted, padding: "4px 9px", letterSpacing: ".04em" }}>Bibliography</button>
         </div>
 
@@ -763,7 +1800,7 @@ function Nav({ active }) {
 
 /* =========================================================  DOTS  */
 function Dots({ active }) {
-  const ids = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "bib"];
+  const ids = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "wheel", "bib"];
   return (
     <div style={{ position: "fixed", right: 14, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 300 }}>
       {ids.map((id) => {
@@ -2436,8 +3473,11 @@ function FunActivity() {
             <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem, 3vw, 2.2rem)", color: C.hi, fontWeight: 900, marginBottom: 8 }}>
               Match the Reformer to the Achievement
             </h2>
-            <p style={{ fontFamily: "Georgia, serif", fontSize: ".98rem", color: C.muted }}>
-              Select a term on the left, then its match on the right.
+            <p style={{ fontFamily: "Georgia, serif", fontSize: ".98rem", color: C.muted, maxWidth: 620, margin: "0 auto" }}>
+              Select a term on the left, then its match on the right. For our larger game, we play in team order
+              <span style={{ fontWeight: 600, color: C.hi }}> A → B → D → E → F → G</span> (skipping Team C since we are Team C),
+              and each round we increment the team and round number (for example: A1 for Round 1, A2 for Round 2, A3 for Round 3, and so on).
+              Questions in the game are color-coded by topic using the same colors as the slide decks.
             </p>
           </div>
         </Reveal>
@@ -2620,7 +3660,7 @@ function Bibliography() {
 export default function App() {
   const progress = useScrollPct();
   const scrollY = useScrollY();
-  const allIds = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "bib"];
+  const allIds = ["hero", "context", ...TOPICS.map((t) => t.id), "eq", "activity", "wheel", "bib"];
   const active = useActiveSection(allIds);
 
   return (
@@ -2659,6 +3699,7 @@ export default function App() {
       {TOPICS.map((t) => <TopicSection key={t.id} topic={t} />)}
       <EQSection />
       <FunActivity />
+      <TriviaWheel />
       <Bibliography />
     </div>
   );
