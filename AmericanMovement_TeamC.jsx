@@ -481,7 +481,24 @@ function TriviaWheel() {
   const [round, setRound] = useState(1);
   const [currentTeamIndex, setCurrentTeamIndex] = useState(0); // index into order array
   const [spinning, setSpinning] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [showHeaderHowToPlay, setShowHeaderHowToPlay] = useState(false);
   const teamsInOrder = ["A", "B", "D", "E", "F", "G"];
+
+  // Wheel spin timing: slower start, spin longer, longer slowdown
+  const WHEEL_SPIN_DURATION_MS = 4200;
+  const WHEEL_SPIN_CSS_DURATION = "4.2s";
+  const WHEEL_EASING = "cubic-bezier(0.22, 0.9, 0.2, 1)";
+
+  const getTeammateLabel = (teamKey, roundNum) => {
+    const r = Math.max(1, roundNum || 1);
+    if (teamKey === "G") {
+      const idx = ((r - 1) % 4) + 1; // G1–G4
+      return `${teamKey}${idx}`;
+    }
+    const idx = ((r - 1) % 3) + 1; // A1–A3, etc., then wrap
+    return `${teamKey}${idx}`;
+  };
 
   // 16 visual segments on the wheel: 4 of each key color in a repeating pattern
   const WHEEL_SEGMENTS = 16;
@@ -534,6 +551,7 @@ function TriviaWheel() {
   const availableQuestions = TRIVIA_QUESTIONS.filter((q) => !usedIds.includes(q.id));
 
   const activeTeamKey = teamsInOrder[currentTeamIndex];
+  const activeTeammateLabel = getTeammateLabel(activeTeamKey, round);
 
   const spinWheel = () => {
     if (spinning) return;
@@ -560,7 +578,7 @@ function TriviaWheel() {
           setUsedIds((prev) => [...prev, randomQuestion.id]);
         }
         setSpinning(false);
-      }, 1600);
+      }, WHEEL_SPIN_DURATION_MS);
       return;
     }
 
@@ -582,8 +600,8 @@ function TriviaWheel() {
     // minimal forward delta to land exactly on the desired segment
     const baseDelta = (targetRotationMod - currentRotationMod + 360) % 360;
 
-    // add several full spins for a satisfying animation
-    const extraSpins = 3 + Math.floor(Math.random() * 3); // 3–5 full spins
+    // add several full spins for a satisfying animation (longer spin)
+    const extraSpins = 5 + Math.floor(Math.random() * 3); // 5–7 full spins
     const newRotation = rotation + extraSpins * 360 + baseDelta;
     setRotation(newRotation);
 
@@ -593,25 +611,25 @@ function TriviaWheel() {
         setUsedIds((prev) => [...prev, randomQuestion.id]);
       }
       setSpinning(false);
-    }, 1600);
+    }, WHEEL_SPIN_DURATION_MS);
   };
 
   const handleAnswer = (index) => {
     if (!currentQ) return;
+    if (hasAnswered) return;
     setSelectedOption(index);
     setHasAnswered(true);
+
+    const correct = index === currentQ.answer;
+    if (correct) {
+      setTeamScores((prev) => ({
+        ...prev,
+        [activeTeamKey]: prev[activeTeamKey] + 1,
+      }));
+    }
   };
 
-  const handleAward = (teamKey) => {
-    if (!currentQ || !hasAnswered) return;
-    const correct = selectedOption === currentQ.answer;
-    // if the answer was wrong, no team can earn a point
-    if (!correct) return;
-    setTeamScores((prev) => ({
-      ...prev,
-      [teamKey]: prev[teamKey] + (correct ? 1 : 0),
-    }));
-
+  const advanceTurn = () => {
     // advance team/round: A → B → D → E → F → G → back to A and increment round
     setCurrentTeamIndex((prevIndex) => {
       const nextIndex = (prevIndex + 1) % teamsInOrder.length;
@@ -634,27 +652,6 @@ function TriviaWheel() {
     setTeamScores({ A: 0, B: 0, D: 0, E: 0, F: 0, G: 0 });
     setRound(1);
     setCurrentTeamIndex(0);
-  };
-
-  const handleClosePopup = () => {
-    // if a team answered incorrectly, closing the popup advances the turn
-    if (
-      currentQ &&
-      hasAnswered &&
-      selectedOption !== null &&
-      selectedOption !== currentQ.answer
-    ) {
-      setCurrentTeamIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % teamsInOrder.length;
-        if (nextIndex === 0) {
-          setRound((r) => r + 1);
-        }
-        return nextIndex;
-      });
-    }
-    setCurrentQ(null);
-    setSelectedOption(null);
-    setHasAnswered(false);
   };
 
   return (
@@ -692,22 +689,133 @@ function TriviaWheel() {
             >
               The Wheel
             </h2>
-            <p
+            <div style={{ marginTop: "1rem" }}>
+              <button
+                type="button"
+                onClick={() => setShowHeaderHowToPlay((v) => !v)}
+                style={{
+                  borderRadius: 999,
+                  border: `1px solid ${C.border}`,
+                  padding: "6px 14px",
+                  background: showHeaderHowToPlay ? C.surface : "transparent",
+                  color: C.muted,
+                  fontFamily: "monospace",
+                  fontSize: 9,
+                  letterSpacing: ".16em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                }}
+              >
+                How to Play {showHeaderHowToPlay ? "−" : "+"}
+              </button>
+              {showHeaderHowToPlay && (
+                <p
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: ".98rem",
+                    color: C.muted,
+                    maxWidth: 720,
+                    margin: "0.75rem auto 0",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Press the button to “spin the wheel” and draw a random question in the panel on the right. The team whose turn it is answers the question; if they are correct, their team automatically earns 1 point. We go in order A → B → D → E → F → G, and each full cycle increases the round number (A1 for Round 1, A2 for Round 2, A3 for Round 3, etc.).
+                </p>
+              )}
+            </div>
+            <div
               style={{
-                fontFamily: "Georgia, serif",
-                fontSize: ".98rem",
-                color: C.muted,
-                maxWidth: 720,
-                margin: "0 auto",
-                lineHeight: 1.7,
+                marginTop: "1.2rem",
+                padding: "0.65rem 0.9rem",
+                borderRadius: 999,
+                border: `1px solid ${C.border}`,
+                background: C.surface,
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                alignItems: "center",
               }}
             >
-              Press the button to “spin the wheel” and draw a random question in a popup. The team whose turn
-              it is answers the question, then chooses which team to award the point to. We go in order{" "}
-              <span style={{ fontWeight: 600, color: C.hi }}>A → B → D → E → F → G</span> (skipping Team C
-              because we are Team C), and each full cycle increases the round number
-              (A1 for Round 1, A2 for Round 2, A3 for Round 3, etc.).
-            </p>
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 9,
+                  letterSpacing: ".16em",
+                  textTransform: "uppercase",
+                  color: C.muted,
+                }}
+              >
+                Turn Order &amp; Current Teammate
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  gap: 6,
+                }}
+              >
+                {teamsInOrder.map((t) => {
+                  const isActive = t === activeTeamKey;
+                  return (
+                    <div
+                      key={t}
+                      style={{
+                        padding: "4px 9px",
+                        borderRadius: 999,
+                        border: `1px solid ${isActive ? C.accent : C.border}`,
+                        background: isActive ? `${C.accent}22` : "transparent",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        fontFamily: "monospace",
+                        fontSize: 11,
+                        color: isActive ? C.accent : C.muted,
+                      }}
+                    >
+                      <span>Team {t}</span>
+                      <span
+                        style={{
+                          padding: "2px 6px",
+                          borderRadius: 6,
+                          background: C.card,
+                          border: `1px solid ${C.border}`,
+                          color: C.hi,
+                          fontSize: 11,
+                        }}
+                      >
+                        {getTeammateLabel(t, round)}
+                      </span>
+                      <span
+                        style={{
+                          padding: "2px 6px",
+                          borderRadius: 6,
+                          background: C.card,
+                          border: `1px solid ${C.border}`,
+                          color: C.hi,
+                          fontSize: 11,
+                          minWidth: 18,
+                          textAlign: "center",
+                        }}
+                      >
+                        {teamScores[t]}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  color: C.muted,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Now answering: Team {activeTeamKey} — {activeTeammateLabel}
+              </div>
+            </div>
           </div>
         </Reveal>
 
@@ -783,7 +891,7 @@ function TriviaWheel() {
                     border: `2px solid ${C.border}`,
                     backgroundImage: `conic-gradient(${conicStops})`,
                     cursor: spinning ? "default" : "pointer",
-                    transition: "transform 1.6s cubic-bezier(0.19, 1, 0.22, 1)",
+                    transition: `transform ${WHEEL_SPIN_CSS_DURATION} ${WHEEL_EASING}`,
                     transform: `rotate(${rotation}deg)`,
                     boxShadow: "0 20px 50px rgba(0,0,0,0.7)",
                   }}
@@ -872,7 +980,7 @@ function TriviaWheel() {
                 gap: "1.5rem",
               }}
             >
-              {/* Directions */}
+              {/* Current question panel */}
               <div
                 style={{
                   borderRadius: 14,
@@ -888,30 +996,171 @@ function TriviaWheel() {
                     letterSpacing: ".18em",
                     textTransform: "uppercase",
                     color: C.muted,
-                    marginBottom: ".6rem",
                   }}
                 >
-                  How to Play
+                    {currentQ ? "Current Question" : "Waiting for a Question"}
                 </div>
-                <ol
+                <div
                   style={{
-                    margin: 0,
-                    paddingLeft: "1.2rem",
-                    fontFamily: "Georgia, serif",
-                    fontSize: ".9rem",
-                    color: C.text,
-                    lineHeight: 1.6,
+                    fontFamily: "monospace",
+                    fontSize: 10,
+                    color: C.muted,
+                    letterSpacing: ".14em",
+                    textTransform: "uppercase",
+                    marginBottom: ".7rem",
                   }}
                 >
-                  <li>Teams sit in order A, B, D, E, F, G (Team C presents the game).</li>
-                  <li>The current team presses “Spin The Wheel” to draw a random question popup.</li>
-                  <li>The popup shows the multiple-choice question; the team chooses an answer.</li>
-                  <li>Right or wrong, the answering team then chooses which team earns the point.</li>
-                  <li>
-                    After each question, move to the next team in the order; when you return to Team A,
-                    increase the round number (A1, A2, A3, ...).
-                  </li>
-                </ol>
+                  Round {round} — Team {activeTeamKey}&apos;s turn ({activeTeammateLabel})
+                </div>
+                {currentQ ? (
+                  <>
+                    <div
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: 9,
+                        letterSpacing: ".18em",
+                        textTransform: "uppercase",
+                        color: TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent,
+                        marginBottom: ".45rem",
+                      }}
+                    >
+                      The Wheel —{" "}
+                      {currentQ.topicId === "awakening" && "Second Great Awakening"}
+                      {currentQ.topicId === "mann" && "Horace Mann & Education"}
+                      {currentQ.topicId === "dix" && "Dorothea Dix & Mental Health"}
+                      {currentQ.topicId === "temperance" && "Temperance Movement"}
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        fontSize: "1rem",
+                        color: C.hi,
+                        marginBottom: ".6rem",
+                      }}
+                    >
+                      Question {currentQ.id}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".95rem",
+                        color: C.text,
+                        lineHeight: 1.7,
+                        marginBottom: ".6rem",
+                      }}
+                    >
+                      {currentQ.prompt}
+                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: ".35rem",
+                        marginBottom: ".7rem",
+                      }}
+                    >
+                      {currentQ.options.map((opt, idx) => {
+                        const isSel = selectedOption === idx;
+                        const isCorrect = hasAnswered && idx === currentQ.answer;
+                        const isWrong = hasAnswered && isSel && idx !== currentQ.answer;
+                        const letter = String.fromCharCode(65 + idx);
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleAnswer(idx)}
+                            style={{
+                              textAlign: "left",
+                              padding: "7px 10px",
+                              borderRadius: 8,
+                              border: "none",
+                              background: isCorrect
+                                ? "#4CAF5020"
+                                : isWrong
+                                ? "#E5393520"
+                                : isSel
+                                ? `${TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent}22`
+                                : C.card,
+                              color: isCorrect
+                                ? "#81C784"
+                                : isWrong
+                                ? "#EF9A9A"
+                                : C.text,
+                              fontFamily: "Georgia, serif",
+                              fontSize: ".9rem",
+                              cursor: "pointer",
+                              transition: "all .18s",
+                            }}
+                            disabled={hasAnswered && isCorrect}
+                          >
+                            <span
+                              style={{
+                                fontFamily: "monospace",
+                                fontSize: 10,
+                                opacity: 0.8,
+                                marginRight: 6,
+                              }}
+                            >
+                              {letter}.
+                            </span>
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        fontSize: ".88rem",
+                        color: hasAnswered
+                          ? selectedOption === currentQ.answer
+                            ? "#81C784"
+                            : "#EF9A9A"
+                          : C.muted,
+                        marginBottom: ".6rem",
+                      }}
+                    >
+                      {hasAnswered
+                        ? selectedOption === currentQ.answer
+                          ? `Correct! +1 point for Team ${activeTeamKey}.`
+                          : "That’s not correct. No point for this question."
+                        : ""}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={advanceTurn}
+                      disabled={!hasAnswered}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: 999,
+                        border: `1px solid ${
+                          hasAnswered ? C.border : `${C.border}80`
+                        }`,
+                        background: hasAnswered ? C.card : "transparent",
+                        color: hasAnswered ? C.hi : C.muted,
+                        fontFamily: "monospace",
+                        fontSize: 10,
+                        letterSpacing: ".14em",
+                        textTransform: "uppercase",
+                        cursor: hasAnswered ? "pointer" : "default",
+                      }}
+                    >
+                      Next Team
+                    </button>
+                  </>
+                ) : (
+                  <p
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      fontSize: ".9rem",
+                      color: C.text,
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    Press <span style={{ fontWeight: 600 }}>Spin The Wheel</span> to draw a question for
+                    Team {activeTeamKey} — {activeTeammateLabel}. The question will appear here.
+                  </p>
+                )}
               </div>
 
               {/* Color key */}
@@ -974,104 +1223,12 @@ function TriviaWheel() {
                   ))}
                 </div>
               </div>
-
-              {/* Scores */}
-              <div
-                style={{
-                  borderRadius: 14,
-                  border: `1px solid ${C.border}`,
-                  background: C.surface,
-                  padding: "1.4rem 1.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.9rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    gap: 8,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: 9,
-                      letterSpacing: ".18em",
-                      textTransform: "uppercase",
-                      color: C.muted,
-                    }}
-                  >
-                    Scoreboard
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: 10,
-                      color: C.muted,
-                      letterSpacing: ".14em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Round {round} — Team {activeTeamKey}&apos;s turn
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 6,
-                  }}
-                >
-                  {teamsInOrder.map((t) => (
-                    <div
-                      key={t}
-                      style={{
-                        padding: "6px 10px",
-                        borderRadius: 999,
-                        border:
-                          t === activeTeamKey
-                            ? `1px solid ${C.accent}`
-                            : `1px solid ${C.border}`,
-                        background:
-                          t === activeTeamKey ? `${C.accent}18` : "transparent",
-                        fontFamily: "monospace",
-                        fontSize: 11,
-                        color: t === activeTeamKey ? C.accent : C.muted,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                      }}
-                    >
-                      <span>Team {t}</span>
-                      <span
-                        style={{
-                          padding: "2px 6px",
-                          borderRadius: 6,
-                          background: C.card,
-                          border: `1px solid ${C.border}`,
-                          color: C.hi,
-                          fontSize: 11,
-                          minWidth: 18,
-                          textAlign: "center",
-                        }}
-                      >
-                        {teamScores[t]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </Reveal>
         </div>
 
-        {/* Popup for current question */}
-        {currentQ && (
+        {/* How to Play popup */}
+        {showHowToPlay && (
           <div
             style={{
               position: "fixed",
@@ -1098,9 +1255,9 @@ function TriviaWheel() {
                 position: "relative",
               }}
             >
-              {/* close button */}
               <button
-                onClick={handleClosePopup}
+                type="button"
+                onClick={() => setShowHowToPlay(false)}
                 style={{
                   position: "absolute",
                   top: 10,
@@ -1112,7 +1269,7 @@ function TriviaWheel() {
                   fontSize: 18,
                   lineHeight: 1,
                 }}
-                aria-label="Close question popup"
+                aria-label="Close How to Play"
               >
                 ×
               </button>
@@ -1123,169 +1280,50 @@ function TriviaWheel() {
                   fontSize: 9,
                   letterSpacing: ".18em",
                   textTransform: "uppercase",
-                  color: TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent,
-                  marginBottom: ".5rem",
+                  color: C.muted,
+                  marginBottom: ".6rem",
                 }}
               >
-                The Wheel —{" "}
-                {currentQ.topicId === "awakening" && "Second Great Awakening"}
-                {currentQ.topicId === "mann" && "Horace Mann & Education"}
-                {currentQ.topicId === "dix" && "Dorothea Dix & Mental Health"}
-                {currentQ.topicId === "temperance" && "Temperance Movement"}
+                How to Play — The Wheel
               </div>
               <h3
                 style={{
                   fontFamily: "Georgia, serif",
                   fontSize: "1.2rem",
                   color: C.hi,
-                  marginBottom: ".75rem",
+                  marginBottom: ".6rem",
                 }}
               >
-                Question {currentQ.id}
+                Turn Order, Rounds, and Teammates
               </h3>
-              <p
+              <ol
                 style={{
+                  margin: 0,
+                  paddingLeft: "1.2rem",
                   fontFamily: "Georgia, serif",
-                  fontSize: ".98rem",
+                  fontSize: ".95rem",
                   color: C.text,
                   lineHeight: 1.7,
-                  marginBottom: ".8rem",
                 }}
               >
-                {currentQ.prompt}
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: ".35rem",
-                  marginBottom: ".8rem",
-                }}
-              >
-                {currentQ.options.map((opt, idx) => {
-                  const isSel = selectedOption === idx;
-                  const isCorrect = hasAnswered && idx === currentQ.answer;
-                  const isWrong = hasAnswered && isSel && idx !== currentQ.answer;
-                  const letter = String.fromCharCode(65 + idx);
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => handleAnswer(idx)}
-                      style={{
-                        textAlign: "left",
-                        padding: "7px 10px",
-                        borderRadius: 8,
-                        border: "none",
-                        background: isCorrect
-                          ? "#4CAF5020"
-                          : isWrong
-                          ? "#E5393520"
-                          : isSel
-                          ? `${TOPIC_COLOR_BY_ID[currentQ.topicId] || C.accent}22`
-                          : C.card,
-                        color: isCorrect
-                          ? "#81C784"
-                          : isWrong
-                          ? "#EF9A9A"
-                          : C.text,
-                        fontFamily: "Georgia, serif",
-                        fontSize: ".9rem",
-                        cursor: "pointer",
-                        transition: "all .18s",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "monospace",
-                          fontSize: 10,
-                          opacity: 0.8,
-                          marginRight: 6,
-                        }}
-                      >
-                        {letter}.
-                      </span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <p
-                style={{
-                  fontFamily: "Georgia, serif",
-                  fontSize: ".9rem",
-                  color: hasAnswered
-                    ? selectedOption === currentQ.answer
-                      ? "#81C784"
-                      : "#EF9A9A"
-                    : C.muted,
-                  marginBottom: ".7rem",
-                }}
-              >
-                {hasAnswered
-                  ? selectedOption === currentQ.answer
-                    ? "Correct! Now choose which team earns 1 point."
-                    : "That’s not correct. Reveal the right answer — no team earns a point for this question. Close this popup to go to the next team."
-                  : ""}
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 6,
-                  marginBottom: ".2rem",
-                }}
-              >
-                {teamsInOrder.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => handleAward(t)}
-                    disabled={!hasAnswered || selectedOption !== currentQ.answer}
-                    style={{
-                      padding: "6px 10px",
-                      borderRadius: 999,
-                      border: `1px solid ${
-                        hasAnswered && selectedOption === currentQ.answer
-                          ? C.border
-                          : `${C.border}80`
-                      }`,
-                      background:
-                        hasAnswered && selectedOption === currentQ.answer
-                          ? "transparent"
-                          : "rgba(15,15,20,0.8)",
-                      color:
-                        hasAnswered && selectedOption === currentQ.answer
-                          ? C.text
-                          : C.muted,
-                      fontFamily: "monospace",
-                      fontSize: 10,
-                      letterSpacing: ".14em",
-                      textTransform: "uppercase",
-                      cursor:
-                        hasAnswered && selectedOption === currentQ.answer
-                          ? "pointer"
-                          : "default",
-                    }}
-                  >
-                    Give point to Team {t}
-                  </button>
-                ))}
-              </div>
-
-              <div
-                style={{
-                  fontFamily: "monospace",
-                  fontSize: 10,
-                  color: C.muted,
-                  letterSpacing: ".12em",
-                  textTransform: "uppercase",
-                  marginTop: ".4rem",
-                }}
-              >
-                Round {round} — Team {activeTeamKey}&apos;s turn
-              </div>
+                <li>Teams sit in order A, B, D, E, F, G (Team C presents the game).</li>
+                <li>
+                  The current team presses <strong>Spin The Wheel</strong>. A random question appears in the
+                  panel next to the wheel.
+                </li>
+                <li>
+                  The highlighted team (and teammate label like A1, B2, etc.) answers together. Selecting an
+                  answer automatically awards <strong>1 point</strong> to that team if the answer is correct.
+                </li>
+                <li>
+                  After each question, click <strong>Next Team</strong> to move to the next team in order.
+                  When you return to Team A, the round number increases (A1, A2, A3, A1 on the 4th round).
+                </li>
+                <li>
+                  Teams A, B, D, E, and F have three teammates each (1–3), so they loop back to teammate 1 on
+                  the 4th round. Team G uses four teammates (G1–G4).
+                </li>
+              </ol>
             </div>
           </div>
         )}
@@ -2050,23 +2088,6 @@ function Hero({ scrollY }) {
           >
             in Antebellum America
           </h1>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <p
-            style={{
-              fontFamily: "Georgia, serif",
-              fontSize: "clamp(.95rem, 1.8vw, 1.2rem)",
-              color: C.muted,
-              maxWidth: 520,
-              margin: "0 auto 1.6rem",
-              lineHeight: 1.8,
-              fontStyle: "italic",
-            }}
-          >
-            Four movements. Four reformers. One generation's conviction that America
-            and every American could be made better.
-          </p>
         </Reveal>
 
         {/* team names */}
