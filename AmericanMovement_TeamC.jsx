@@ -483,26 +483,46 @@ function TriviaWheel() {
   const [spinning, setSpinning] = useState(false);
   const teamsInOrder = ["A", "B", "D", "E", "F", "G"];
 
-  const totalSegments = TRIVIA_QUESTIONS.length;
-  const segmentAngle = 360 / totalSegments;
+  // 16 visual segments on the wheel: 4 of each key color in a repeating pattern
+  const WHEEL_SEGMENTS = 16;
+  const segmentAngle = 360 / WHEEL_SEGMENTS;
+  const patternColors = [
+    TOPIC_COLOR_BY_ID.awakening,
+    TOPIC_COLOR_BY_ID.mann,
+    TOPIC_COLOR_BY_ID.dix,
+    TOPIC_COLOR_BY_ID.temperance,
+    TOPIC_COLOR_BY_ID.awakening,
+    TOPIC_COLOR_BY_ID.mann,
+    TOPIC_COLOR_BY_ID.dix,
+    TOPIC_COLOR_BY_ID.temperance,
+    TOPIC_COLOR_BY_ID.awakening,
+    TOPIC_COLOR_BY_ID.mann,
+    TOPIC_COLOR_BY_ID.dix,
+    TOPIC_COLOR_BY_ID.temperance,
+    TOPIC_COLOR_BY_ID.awakening,
+    TOPIC_COLOR_BY_ID.mann,
+    TOPIC_COLOR_BY_ID.dix,
+    TOPIC_COLOR_BY_ID.temperance,
+  ];
 
-  // wheel segments use the topic key colors (same as slide decks)
-  const conicStops = TRIVIA_QUESTIONS.map((q, i) => {
-    const start = i * segmentAngle;
-    const end = (i + 1) * segmentAngle;
-    const col = TOPIC_COLOR_BY_ID[q.topicId] || C.accent;
-    return `${col} ${start}deg ${end}deg`;
-  }).join(", ");
+  // wheel gradient: 4 slices of each key color around the circle
+  const conicStops = Array.from({ length: WHEEL_SEGMENTS })
+    .map((_, i) => {
+      const start = i * segmentAngle;
+      const end = (i + 1) * segmentAngle;
+      const col = patternColors[i % patternColors.length] || C.accent;
+      return `${col} ${start}deg ${end}deg`;
+    })
+    .join(", ");
 
-  const availableQuestions =
-    usedIds.length === TRIVIA_QUESTIONS.length
-      ? TRIVIA_QUESTIONS
-      : TRIVIA_QUESTIONS.filter((q) => !usedIds.includes(q.id));
+  // only allow each question to appear once per session
+  const availableQuestions = TRIVIA_QUESTIONS.filter((q) => !usedIds.includes(q.id));
 
   const activeTeamKey = teamsInOrder[currentTeamIndex];
 
   const spinWheel = () => {
     if (spinning) return;
+    if (availableQuestions.length === 0) return;
     setSpinning(true);
     setSelectedOption(null);
     setHasAnswered(false);
@@ -672,7 +692,7 @@ function TriviaWheel() {
                     position: "absolute",
                     top: "-10px",
                     left: "50%",
-                    transform: "translateX(-50%)",
+                    transform: "translateX(-50%) rotate(180deg)",
                     width: 0,
                     height: 0,
                     borderLeft: "10px solid transparent",
