@@ -14,11 +14,11 @@ import dixImg2 from "./assets/teamc/image-4a7891a7-68a6-4a4a-88d9-dd2d8121e9f5.p
 import dixImg3 from "./assets/teamc/image-4a1402e9-2dba-492a-8c8c-3ab184776f64.png";
 import dixImg4 from "./assets/teamc/image-da84347a-8ef4-46c2-99ad-beffbbe81b0f.png";
 import dixImg5 from "./assets/teamc/image-6003cf93-e555-4a10-8843-aada7fac86b1.png";
-import temperanceImg1 from "./assets/teamc/image-691c492d-890d-4ddb-968d-cba81e6e4bf6.png";
-import temperanceImg2 from "./assets/teamc/image-2c93f168-a275-465a-af8b-ad7e0668e143.png";
-import temperanceImg3 from "./assets/teamc/image-6fbe4033-eba4-4255-adcc-2f54ca27d64d.png";
-import temperanceImg4 from "./assets/teamc/image-a21072ba-b30d-4365-99ba-209798e3a93b.png";
-import temperanceImg5 from "./assets/teamc/image-c760f4f6-42e8-4cf7-8457-b09f51ca6e79.png";
+import temperanceImg1 from "./assets/teamc/image-056e3e29-cc57-4a29-a611-8a2e72eeba66.png";
+import temperanceImg2 from "./assets/teamc/image-92b784cc-6715-492a-b29a-19becd5a6687.png";
+import temperanceImg3 from "./assets/teamc/image-eb73dc82-dd8a-4297-a394-e161271e5f36.png";
+import temperanceImg4 from "./assets/teamc/image-7fcf7fe0-39a5-4601-bf14-bcbb3b69dada.png";
+import temperanceImg5 from "./assets/teamc/image-efb395e4-811a-4eee-affe-b89169014914.png";
 import contextImg1 from "./assets/teamc/image-ee9937d9-3ad0-472e-a6db-12f11eaa3d5c.png";
 import contextImg2 from "./assets/teamc/image-ae159715-2723-4974-b9a7-e052f5ee5f11.png";
 import contextImg3 from "./assets/teamc/image-c4ced2bb-cc79-4124-8bc1-02f57eafe7d3.png";
@@ -346,67 +346,67 @@ const TOPICS = [
     color: "#D4706A",
     era: "1826 to 1860",
     title: "The American Temperance Union",
-    subtitle: "The War Against Alcohol and the Making of a Reform Tradition",
+    subtitle: "Alcohol Reform and the Fight to Change Drinking Habits",
     slides: [
       {
         label: "Background",
         imgSrc: temperanceImg1,
         bullets: [
-          "Reform era encouraged moral improvement",
-          "Religious diversity increased nationwide",
-          "Conflicts between denominations common",
-          "Reformers promoted peaceful coexistence",
-          "Tolerance seen as social necessity",
+          "Alcohol widely consumed in early America",
+          "Taverns common gathering places in towns and cities",
+          "Drinking viewed as a normal daily habit",
+          "Heavy drinking created serious social problems",
+          "Reformers began promoting moderation and self-control",
         ],
-        imgAlt: "Town scene with multiple churches of different denominations",
+        imgAlt: "Nineteenth-century tavern scene with men sitting and standing around a table drinking and socializing",
       },
       {
-        label: "Idea of Religious Tolerance",
+        label: "Temperance Concerns",
         imgSrc: temperanceImg2,
         bullets: [
-          "Freedom to practice any religion",
-          "Respect for differing beliefs",
-          "Avoid persecution or discrimination",
-          "Encourage cooperation among faiths",
-          "Promote peaceful religious coexistence",
+          "Drunkenness harmed families and communities",
+          "Alcohol abuse closely linked to poverty and crime",
+          "Workers sometimes missed jobs because of drinking",
+          "Domestic violence increased with alcohol misuse",
+          "Reformers warned about moral and spiritual dangers",
         ],
-        imgAlt: "Cartoon showing diverse religions shaking hands peacefully",
+        imgAlt: "Satirical nineteenth-century illustration showing a drunken man behaving irresponsibly toward his family",
       },
       {
-        label: "American Tolerance Union",
+        label: "American Temperance Union",
         imgSrc: temperanceImg3,
         bullets: [
-          "Organization promoting religious tolerance",
-          "Encouraged dialogue between denominations",
-          "Advocated respect for religious diversity",
-          "Published materials supporting tolerance",
-          "Worked to reduce religious conflict",
+          "Reform group promoting temperance and alcohol moderation",
+          "Encouraged people to reduce or give up drinking",
+          "Organized meetings and public discussions about alcohol",
+          "Spread ideas about self-discipline and self-control",
+          "Promoted healthier and more stable lifestyles",
         ],
-        imgAlt: "Scene of religious leaders meeting in a town hall to promote tolerance",
+        imgAlt: "Illustration of a temperance or reform meeting with speakers addressing an attentive audience",
       },
       {
         label: "Impact on Society",
         imgSrc: temperanceImg4,
         bullets: [
-          "Encouraged acceptance of religious diversity",
-          "Reduced tensions between denominations",
-          "Strengthened ideals of religious freedom",
-          "Influenced broader reform movements",
-          "Promoted unity within growing nation",
+          "Temperance ideas spread across many parts of America",
+          "Thousands of people signed pledges against drinking alcohol",
+          "Churches strongly supported temperance preaching and reform",
+          "Reform groups organized campaigns, rallies, and local societies",
+          "Public debate about alcohol increased in newspapers and politics",
         ],
-        imgAlt: "Cartoon town hall debate where religious leaders cooperate respectfully",
+        imgAlt: "Temperance poster or satirical cartoon urging people to avoid alcohol and support reform",
       },
       {
         label: "Historical Significance",
         imgSrc: temperanceImg5,
         bullets: [
-          "Reinforced American religious freedom ideals",
-          "Encouraged peaceful social coexistence",
-          "Supported democratic liberty principles",
-          "Helped shape pluralistic society",
-          "Contributed to reform era values",
+          "Temperance became a major national reform movement",
+          "Influenced later prohibition campaigns and laws",
+          "Showed the power of organized reform groups",
+          "Encouraged personal responsibility and discipline",
+          "Helped change American attitudes toward alcohol use",
         ],
-        imgAlt: "Cartoon showing many different faith symbols connected together peacefully",
+        imgAlt: "Temperance rally or parade scene with banners promoting alcohol reform",
       },
     ],
     assessment: [
@@ -443,7 +443,7 @@ const TOPIC_3D = {
   awakening: "https://blocks.glass/embed/cc5ffd5a-cc9b-438f-8e3e-f6ac4bdb75ce",
   mann: "https://blocks.glass/embed/a702dc40-2cd1-4038-8b1e-14a6358790bb",
   dix: "https://blocks.glass/embed/3ed054bf-ebb3-4825-a895-4ad7ec0f4b39",
-  temperance: "https://blocks.glass/embed/77df546b-8ee9-45f3-ac31-1a8a147ef9a4",
+  temperance: "https://blocks.glass/embed/f1840bbd-b4dc-456f-bc48-a3a2437e4eaa",
 };
 
 function Preload3DModels() {
@@ -991,7 +991,7 @@ function Hero({ scrollY }) {
                 onMouseEnter={(e) => { e.currentTarget.style.background = `${t.color}22`; e.currentTarget.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = `${t.color}12`; e.currentTarget.style.transform = "translateY(0)"; }}
               >
-                {t.num} {t.title.split(" ").slice(0, 3).join(" ")}
+                {t.num} {t.title}
               </button>
             ))}
           </div>
@@ -1034,8 +1034,8 @@ function ContextSection() {
     },
     {
       id: "temperance",
-      title: "American Tolerance Union",
-      subtitle: "Religious tolerance movement",
+      title: "American Temperance Union",
+      subtitle: "Alcohol reform movement",
       color: TOPICS.find((t) => t.id === "temperance")?.color || C.accent,
     },
   ];
@@ -1167,8 +1167,22 @@ function ContextSection() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accent}40` }}>
-              <img src={contextImg1} alt="1800s American town scene with busy streets and growing communities" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                margin: "0 auto",
+                aspectRatio: "4/3",
+                borderRadius: 10,
+                overflow: "hidden",
+                border: `1px solid ${C.accent}40`,
+              }}
+            >
+              <img
+                src={contextImg1}
+                alt="1800s American town scene with busy streets and growing communities"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             </div>
           </Reveal>
         </div>
@@ -1184,8 +1198,22 @@ function ContextSection() {
           }}
         >
           <Reveal>
-            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accentLo}40` }}>
-              <img src={contextImg2} alt="Religious revival meeting or church gathering in the 1800s" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                margin: "0 auto",
+                aspectRatio: "4/3",
+                borderRadius: 10,
+                overflow: "hidden",
+                border: `1px solid ${C.accentLo}40`,
+              }}
+            >
+              <img
+                src={contextImg2}
+                alt="Religious revival meeting or church gathering in the 1800s"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             </div>
           </Reveal>
           <Reveal delay={0.08}>
@@ -1317,8 +1345,22 @@ function ContextSection() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <div style={{ width: "100%", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", border: `1px solid ${C.accent}40` }}>
-              <img src={contextImg3} alt="Split collage showing education, religion, and healthcare reform" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                margin: "0 auto",
+                aspectRatio: "4/3",
+                borderRadius: 10,
+                overflow: "hidden",
+                border: `1px solid ${C.accent}40`,
+              }}
+            >
+              <img
+                src={contextImg3}
+                alt="Split collage showing education, religion, and healthcare reform"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             </div>
           </Reveal>
         </div>
@@ -2026,11 +2068,11 @@ function TopicTitleSlide({ topic, totalSlides }) {
             )}
             {topic.id === "temperance" && (
               <>
-                <li>• Shows people discussing religious differences peacefully.</li>
-                <li>• Represents cooperation between denominations.</li>
-                <li>• Promotes the idea of respecting different beliefs.</li>
-                <li>• Reflects growing religious diversity in America.</li>
-                <li>• Connects to the reform era’s push for tolerance.</li>
+                <li>• Shows how alcohol was a normal part of everyday life.</li>
+                <li>• Highlights the problems heavy drinking caused for families.</li>
+                <li>• Represents temperance reformers speaking to convince people to drink less.</li>
+                <li>• Symbolizes meetings, pledges, and posters used to spread the movement.</li>
+                <li>• Connects temperance activism to later national prohibition efforts.</li>
               </>
             )}
           </ul>
