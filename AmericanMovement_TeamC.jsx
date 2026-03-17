@@ -676,7 +676,7 @@ function TriviaWheel() {
                 marginBottom: 8,
               }}
             >
-              Game Extension
+              Fun Activity
             </div>
             <h2
               style={{
@@ -687,7 +687,7 @@ function TriviaWheel() {
                 marginBottom: 10,
               }}
             >
-              The Wheel
+              Team Questions
             </h2>
             <div style={{ marginTop: "1rem" }}>
               <button
