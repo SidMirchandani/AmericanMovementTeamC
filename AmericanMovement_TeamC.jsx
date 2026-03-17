@@ -3401,42 +3401,50 @@ function TopicSection({ topic }) {
 /* =========================================================  ESSENTIAL QUESTION (EQ)  */
 function EQSection() {
   const answerParagraphs = [
-    "In the early 1800s many Americans believed society could become better. Religious revivals encouraged people to live moral lives and help others. This belief led to reform movements that tried to improve schools prisons and treatment of the mentally ill. Leaders like Horace Mann and Dorothea Dix worked to change laws and institutions so people could have more opportunity and dignity.",
-    "Political decisions also helped expand freedom and responsibility. State governments supported public education which allowed more children to learn and prepare for citizenship. Reformers spoke to lawmakers and pushed for new policies that treated people more fairly. These actions showed how government and citizens could work together to improve society.",
-    "However some decisions also slowed progress. Many Americans disagreed about reform movements and some resisted change. Economic interests and traditional beliefs often protected the old systems. Even with these challenges the reform era showed that cultural ideas political action and economic choices could shape the growth of freedom equality and respect for human dignity.",
+    "The Era of American Reform saw many citizens believe that society could reach perfection. Religious fervor and democratic ideals encouraged people to live moral lives and actively help their neighbors. This optimism sparked reform movements aimed at fixing social ills such as lack of education and neglect of the vulnerable. Reformers followed the idea that every individual possessed inherent dignity and potential.",
+    "The Second Great Awakening was a massive religious revival that swept across the frontier and the Northeast. Unlike earlier traditions that emphasized predestination this movement taught that individuals could choose their own salvation through good works and moral living. This social gospel energized citizens to see social reform as a spiritual duty rather than just a political choice. These beliefs led to a surge in church membership and the birth of many benevolent societies.",
+    "Leaders like Horace Mann and Dorothea Dix pushed for institutional change to match these moral ideals. Mann argued that a functioning democracy required an educated citizenry and he promoted state funded public schools for children of all social classes. Dix researched the treatment of mentally ill individuals and exposed how many were caged in dark cells and treated like criminals. Their work helped create public schools and mental asylums that reshaped how Americans understood education and mental health.",
+    "Other reformers focused on personal behavior especially through the American Temperance Union founded in 1836. Temperance leaders linked alcohol consumption to poverty domestic violence and workplace accidents and they encouraged total abstinence to stabilize families and improve productivity. Their efforts persuaded lawmakers in some states to pass the first prohibition laws. Even when these reforms faced resistance from people defending traditional interests they showed that citizens and government could work together to redesign institutions so they better upheld human dignity for everyone.",
   ];
   const skeleton = [
     {
-      num: "1",
-      title: "Reform ideas begin",
+      num: "01",
+      title: "Second Great Awakening",
       bullets: [
-        "Early 1800s Americans wanted social improvement",
-        "Religious revivals encouraged moral responsibility",
-        "Reform movements tried to fix social problems",
-        "Horace Mann improved public education",
-        "Dorothea Dix reformed mental health treatment",
+        "Religious revival across the Northeast and frontier",
+        "Emphasis on individual salvation through good works",
+        "Shift from predestination to moral choice",
+        "Increased church membership plus benevolent societies",
       ],
     },
     {
-      num: "2",
+      num: "02",
       title: "Role of government",
       bullets: [
-        "Political decisions expanded opportunities",
-        "States supported public education systems",
-        "Education prepared citizens for democracy",
-        "Reformers persuaded lawmakers to change policies",
-        "Government and citizens worked together",
+        "Advocated for a functioning democracy through education",
+        "Pioneered state funded public schools for all classes",
+        "Established professional teacher training and curricula",
+        "Redefined education as a public right for all children",
       ],
     },
     {
-      num: "3",
-      title: "Limits and challenges",
+      num: "03",
+      title: "Dorothea Dix and Mental Health Reform",
       bullets: [
-        "Many Americans resisted social reforms",
-        "Economic interests protected old systems",
-        "Cultural traditions slowed change",
-        "Reform movements still pushed progress",
-        "Freedom and dignity slowly expanded",
+        "Researched the treatment of mentally ill individuals",
+        "Exposed the use of dark cells and criminal treatment",
+        "Provided powerful testimony to state legislatures",
+        "Created the first generation of American mental asylums",
+      ],
+    },
+    {
+      num: "04",
+      title: "American Temperance Union",
+      bullets: [
+        "Founded in 1836 to reduce alcohol consumption",
+        "Linked drinking to poverty plus domestic violence",
+        "Promoted total abstinence to stabilize families",
+        "Influenced the first state wide prohibition laws",
       ],
     },
   ];
